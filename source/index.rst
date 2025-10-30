@@ -33,4 +33,4 @@ Here are a few things I want to share with you if you're interested in quantum c
    linear_algebra/index
    quantum/index
    applications/index
-   linux/index
+   Linux使用杂谈（Rocky Linux为主） <linux/index>
