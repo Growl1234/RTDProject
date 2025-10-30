@@ -8,7 +8,7 @@
 
 ### 2. 安装VMware Workstation Pro
 
-在Broadcom Support网站上注册用户，免费下载和安装VMware Workstation Pro（最新版为25H2，就Rocky Linux 10的安装和使用体验来讲相对17.x版有明显改进）。过程稍显麻烦，不想折腾的可以直接问我（uwsy1059@qq.com）要安装包。
+VMware Workstation Pro对个人用户是免费的，因此直接在Broadcom Support网站上注册用户，然后下载和安装VMware Workstation Pro就行了，只是过程稍微麻烦一些。目前软件最新版本为25H2，个人认为就Rocky Linux 10的安装和使用体验来讲相对17.x版有明显改进。
 
 ### 3. 配置VMware虚拟机选项
 
