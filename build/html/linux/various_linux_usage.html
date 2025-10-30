@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>各大Linux发行版的简要介绍和个人初步使用体验杂谈 &mdash; Growl1234 v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=9732e094" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Rocky Linux安装NVIDIA显卡驱动的基本步骤和注意事项" href="rocky/nvidia.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Growl1234
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">内容目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../linear_algebra/index.html">线性代数</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../linear_algebra/Linear_Algebra_and_Its_Applications_6e/index.html">线性代数及其应用（第六版）原版教材及习题解析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../linear_algebra/Linear_Algebra_and_Its_Applications_6e/solutions_manual.html">习题参考答案</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../quantum/index.html">量子化学理论与计算化学方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quantum/index.html#id2">量子化学理论基础</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../quantum/solutions_manual.html">习题参考答案</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../quantum/index.html#id4">分子模拟</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quantum/index.html#id5">计算方法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../applications/index.html">计算化学应用与软件指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#gaussian">适用于Gaussian</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../applications/Gaussian/slurm.html">向Slurm集群提交Gaussian任务的两个注意事项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#orca">适用于ORCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#vasp">适用于VASP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html">配置VASP和一些重要工具（vaspkit、VTST）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html#vasp">编译VASP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html#vaspkit">配置vaspkit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html#vtst">配置VTST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#cp2k">适用于CP2K</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../applications/CP2K/installation.html">从源代码配置CP2K</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#id5">个人使用过的不同计算程序对比</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#id6">推荐论坛</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Linux使用杂谈</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#rocky-linux">乱谈Rocky Linux的安装和初步配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rocky/installation.html">Rocky Linux的安装以及一些初步的使用建议</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rocky/installation.html#rocky-linuxiso">1. 下载Rocky Linux的ISO镜像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/installation.html#u">2. 制作U盘启动盘</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/installation.html#id1">3. 重启电脑，加载U盘启动盘</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/installation.html#id2">4. 设置Rocky Linux安装选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/installation.html#id3">5. 一切就绪</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/installation.html#id4">一些额外的使用建议</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rocky/vmware_installation.html">Rocky Linux 10在虚拟机上的安装</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rocky/vmware_installation.html#rocky-linux-10iso">1. 下载Rocky Linux 10的ISO镜像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/vmware_installation.html#vmware-workstation-pro">2. 安装VMware Workstation Pro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/vmware_installation.html#vmware">3. 配置VMware虚拟机选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/vmware_installation.html#id1">4. 启动虚拟机，加载系统安装映像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/vmware_installation.html#rocky-linux">5. 设置Rocky Linux安装选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/vmware_installation.html#id2">6. 一切就绪</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="rocky/nvidia.html">Rocky Linux安装NVIDIA显卡驱动的基本步骤和注意事项</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="rocky/nvidia.html#id1">1. 安装驱动</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/nvidia.html#nouveau">2. 禁用系统自带的开源驱动Nouveau，避免可能的冲突</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/nvidia.html#secure-boot">3. 关于安全启动（Secure Boot）的配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/nvidia.html#id2">4. 重启系统</a></li>
+<li class="toctree-l4"><a class="reference internal" href="rocky/nvidia.html#nvidia-smi">5. 运行指令“nvidia-smi”检查驱动是否被正确加载</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#id2">乱谈各大Linux发行版的个人使用体验</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">各大Linux发行版的简要介绍和个人初步使用体验杂谈</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#ubuntu">Ubuntu（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rocky-linux">Rocky Linux（★★★★★★）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#red-hat-enterprise-linux-rhel">Red Hat Enterprise Linux（RHEL）（★★★★★☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#centos-stream">CentOS Stream（★★★★☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fedora">Fedora（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openeuler-font-color-brown-font">OpenEuler <font color=brown>（国产）</font>（★★☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#arch-linux">Arch Linux（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kylin-server-v11-font-color-brown-font">银河麒麟（Kylin）Server V11 <font color=brown>（国产）</font>（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#openkylin-font-color-brown-font">OpenKylin <font color=brown>（国产）</font>（★★☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#deepin-font-color-brown-font">Deepin <font color=brown>（国产）</font>（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uos-desktop-v20-font-color-brown-font">统信UOS Desktop V20 <font color=brown>（国产）</font>（★☆☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cachy-os">Cachy OS（★★★★☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debian">Debian（★★★★☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#almalinux">AlmaLinux（★★★★★☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#opensuse-leap-15-6">OpenSUSE Leap 15.6（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#linux-mint">Linux Mint（★★☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#manjaro">Manjaro（★★☆☆☆☆）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Growl1234</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Linux使用杂谈</a></li>
+      <li class="breadcrumb-item active">各大Linux发行版的简要介绍和个人初步使用体验杂谈</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/linux/various_linux_usage.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="linux">
+<h1>各大Linux发行版的简要介绍和个人初步使用体验杂谈<a class="headerlink" href="#linux" title="Link to this heading"></a></h1>
+<p><em><strong>Last Updated: 2025-10-29</strong></em></p>
+<p><strong>写在前面：</strong><br /><strong>1. 试用和体验所用电脑为笔记本电脑（这也是为什么下面会有关于系统初始时候是否能识别无线网卡的吐槽）。</strong><br /><strong>2. 以下系统按照自己初次使用时间由旧到新排序。</strong><br /><strong>3. 星级打分的主要依据为个人使用体验、理论上的性能（其中又以稳健性为主）评估，以及多个相关社区和论坛上风评的综合考量，总体来说主观因素较大，仅供参考。</strong><br /><strong>4. 判断一个Linux系统基于RHEL还是Debian抑或其他系统构建的最直观方式就是看它的默认包管理器是什么，例如：如果是yum/dnf + rpm，那么是RHEL系；如果是apt + dpkg，那么是Debian系；如果是pacman，那么是Arch Linux系。</strong><br /><strong>5. 基于Debian构建的Linux发行版的稳定性被普遍认为逊于基于RHEL构建的下游发行版，如果对这方面要求较高的话通常应当优先考虑后者。</strong></p>
+<section id="ubuntu">
+<h2>Ubuntu（★★★☆☆☆）<a class="headerlink" href="#ubuntu" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>目前社区流行度最高的开源Linux系统之一，基于Debian的unstable分支构建，并加入了一定的自定义元素。分两年一发布的LTS版和半年一发布的“临时”版两个分支。优点是对Linux新手很友好（如果之前完全没有接触过Linux很推荐从Ubuntu入门）；缺点是稳健性差（即使是LTS口碑也不甚好），且额外预置的snap包管理器相当令人不适（不过可以删掉）。在其安装页面可以同时进行初步的试用体验。</p>
+</section>
+<section id="rocky-linux">
+<h2>Rocky Linux（★★★★★★）<a class="headerlink" href="#rocky-linux" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>基于RHEL且号称与其“bug-for-bug”级兼容的企业级开源Linux操作系统，是被广泛认可但已被终止开发的CentOS的正统继任者。稳健性很好，是<strong>个人认为所有Linux开源分发中最优秀且最适合作科学计算用途的系统</strong>，本人现在在个人电脑上运行几乎所有轻量级（限于设备原因）计算化学程序和任务都是在Rocky Linux中执行的。</p>
+</section>
+<section id="red-hat-enterprise-linux-rhel">
+<h2>Red Hat Enterprise Linux（RHEL）（★★★★★☆）<a class="headerlink" href="#red-hat-enterprise-linux-rhel" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>红帽做的企业级Linux系统，是<strong>综合性能最强的Linux系统</strong>，在Linux领域知名度和受认可度都极高，开发历史也较为悠久；对企业和团体用户收费，但有一个个人开发者计划供个人用户免费使用。包管理器是订阅模式且因为不开源导致没有好的国内镜像，所以从dnf/yum包下载和更新软件不时会比较慢。</p>
+</section>
+<section id="centos-stream">
+<h2>CentOS Stream（★★★★☆☆）<a class="headerlink" href="#centos-stream" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>RHEL生产链的中游版本，滚动发布。实际上约等于RHEL预览版（有内部说法称RHEL实际上就是定期从CentOS Stream的主干代码拉下来加上Red Hat元素重新打包发布，按照这个说法CentOS Stream还是相对稳健的；但我仍然认为滚动发行模式决定了它难以用于追求长期稳定的生产环境）。</p>
+</section>
+<section id="fedora">
+<h2>Fedora（★★★☆☆☆）<a class="headerlink" href="#fedora" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>RHEL生产链的上游社区开发版本，更新策略激进，稳定性差。在其安装页面可以同时进行初步的试用体验。</p>
+<p>值得一提的是，Fedora团队制作的专供RHEL系中下游系统使用的名为Anaconda的系统安装程序（不是提供Python程序包和环境的那个Anaconda），采用一个页面、多个安装选项并列、可自定义性较强的设计模式，不同于大多数安装程序逐步引导式的设计，极其方便且一目了然；但从Fedora 42开始该安装程序被更新了，不仅随大流变成了逐步引导的模式还很难用（砍掉了很多自定义选项，还把硬盘分区设置藏在了右上角的省略号中使其难以被发现），可以说几乎是全面退化，很值得吐槽。</p>
+</section>
+<section id="openeuler-font-color-brown-font">
+<h2>OpenEuler <font color=brown>（国产）</font>（★★☆☆☆☆）<a class="headerlink" href="#openeuler-font-color-brown-font" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>基于RHEL构建的Linux操作系统，分企业级长期支持和社区支持两个分支。无法识别无线网卡，需自行安装相应的firmware。安装程序可供安装选项非常之少，甚至不支持预装图形界面。</p>
+</section>
+<section id="arch-linux">
+<h2>Arch Linux（★★★☆☆☆）<a class="headerlink" href="#arch-linux" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>一个独立的Linux分支，特点是灵活且易于自定义。系统安装为纯命令行操作。原生系统为滚动发行，且更新风格相当激进（上游级别的），也因此理论上稳定性不佳（网上有一个相关的说法叫“滚挂”）。适合对Linux比较熟悉且有兴趣和精力对系统进行多方面DIY的用户。</p>
+</section>
+<section id="kylin-server-v11-font-color-brown-font">
+<h2>银河麒麟（Kylin）Server V11 <font color=brown>（国产）</font>（★★★☆☆☆）<a class="headerlink" href="#kylin-server-v11-font-color-brown-font" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>基于RHEL构建的企业级Linux系统。使用麒麟公司自己做的UKUI图形界面（基于MATE研发），但安装程序用的Anaconda。包管理器更新偏保守。整体体验不错，在国产Linux梯队中值得推荐。</p>
+<p>在我的笔记本电脑上以物理机安装时无法显示图形界面，且无法识别无线网卡（需自行安装相应的firmware），故在虚拟机上尝试和体验。</p>
+</section>
+<section id="openkylin-font-color-brown-font">
+<h2>OpenKylin <font color=brown>（国产）</font>（★★☆☆☆☆）<a class="headerlink" href="#openkylin-font-color-brown-font" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>麒麟软件公司搭建的开源麒麟系统社区做的开源Linux系统，基于Debian构建，使用UKUI图形界面（包括安装界面）。终端不好用，而且需要开启“运维模式”才能通过命令行的apt包管理器安装和卸载程序，个人认为开发团队过度追求图形界面体验却忽略了Linux的实用性所在。</p>
+<p>安装时会同时检测显卡并自动安装NVIDIA显卡驱动，不过那个驱动是坏的。</p>
+</section>
+<section id="deepin-font-color-brown-font">
+<h2>Deepin <font color=brown>（国产）</font>（★★★☆☆☆）<a class="headerlink" href="#deepin-font-color-brown-font" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>基于Debian构建的开源Linux系统。使用开发团队自己做的DDE图形界面（类似KDE Plasma；包括安装程序界面）。包管理器更新偏保守。有团队自己搞的类似于Flatpak、名为“如意玲珑”的软件仓库。自带的文本编辑器对只读的判断很奇怪，且无法更改，反而不如终端里面用vim方便。除此以外，整体体验不错，在国产Linux范畴内我的推荐指数仅次于银河麒麟（Kylin）Server V11。</p>
+<p>在安装程序中可以选择是否同时集成NVIDIA闭源驱动，但那样安装好的驱动用不了，建议不勾选；安装NVIDIA显卡驱动时应按照NVIDIA官方文档中里适用于Debian 12的安装步骤去搞。</p>
+</section>
+<section id="uos-desktop-v20-font-color-brown-font">
+<h2>统信UOS Desktop V20 <font color=brown>（国产）</font>（★☆☆☆☆☆）<a class="headerlink" href="#uos-desktop-v20-font-color-brown-font" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>Deepin的下游企业级Linux系统，基于Debian构建。使用DDE图形界面（包括安装程序界面）。桌面版有90天试用期限。内核版本和软件仓库太老，因而很不推荐。终端不好用。需要在设置中手动开启管理员权限并在安全设置里开启“安装任意来源的软件包”才能正常使用apt包安装和卸载程序。</p>
+</section>
+<section id="cachy-os">
+<h2>Cachy OS（★★★★☆☆）<a class="headerlink" href="#cachy-os" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>基于Arch Linux构建的开源Linux系统，是Linux社区的人气新星。在其安装页面可以同时进行初步的试用体验。支持包括KDE、GNOME、UKUI在内的很多种图形界面环境（其中KDE Plasma是默认的）。GNOME桌面版自带程序太多太冗余，且中文界面显示不是很令人舒服。其他方面体验还可以。如果你的水平介于Linux新手和高手之间且追求更激进的Linux系统体验，那么很推荐尝试该系统。</p>
+<p>系统会在安装时自动检测并安装NVIDIA驱动，且实测该驱动能够正常加载，是截至目前尝试过唯一一个不需要单另花心思安装NVIDIA驱动的Linux系统。</p>
+</section>
+<section id="debian">
+<h2>Debian（★★★★☆☆）<a class="headerlink" href="#debian" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>社区流行度极高的开源Linux系统，大量Linux发布均基于Debian构建；开发历史也较为悠久。分stable、testing、unstable三个分支，其中stable分支的稳定性优于Ubuntu且包管理器更新偏保守。安装程序较为繁琐复杂，且分区一块如果直接选择手动分区的话会优先将boot引导文件写入所有硬盘中靠前的启动分区，如果要用不同硬盘装不同系统建议先选择“Use entire disk”选项，引导完后还会回到分区确认页面，届时还可以手动改成你想要的分区和空间占比。</p>
+</section>
+<section id="almalinux">
+<h2>AlmaLinux（★★★★★☆）<a class="headerlink" href="#almalinux" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>基于RHEL（准确来说是其中游CentOS Stream）且号称与其二进制兼容的开源Linux系统（在2023年Red Hat关闭下游公开仓库后放弃了bug级兼容的目标）。功能和体验与RHEL和Rocky Linux无异，但在国内受众貌似不如Rocky Linux广泛。</p>
+</section>
+<section id="opensuse-leap-15-6">
+<h2>OpenSUSE Leap 15.6（★★★☆☆☆）<a class="headerlink" href="#opensuse-leap-15-6" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>SUSE Enterprise Linux的社区克隆版本，是一个独立、小众的Linux分支。新的16.0版本目前存在明显的漏洞和不便之处，故体验版本为15.6版。GNOME桌面环境会预安装许多冗余的程序和小游戏。使用Zypper + rpm为默认的包管理器。Zypper包管理器指令和GNOME software等其他软件包管理平台和程序不能同时运行，这是一个很不方便之处。GCC默认调用版本为7.5，太老，但可以手动链接到14.3等Zypper包含的较新的版本。没有成功安装NVIDIA驱动，原因貌似是软件版本不兼容问题。</p>
+</section>
+<section id="linux-mint">
+<h2>Linux Mint（★★☆☆☆☆）<a class="headerlink" href="#linux-mint" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>直接基于Ubuntu（甚至不是Debian）构建来的，也因此我对其第一印象并不好，不过开发团队对系统的定位本来就仅限于桌面用途而非服务器等以稳健为重的场合。安装包总是喜欢把多个硬盘混到一起，要么boot分区要么swap分区强行占用别的盘且没有手动避免的办法，搞得人很烦，我一怒之下没有安装就立即删掉了iso（这也说明基于Debian和Ubuntu的多数发行版都不适合在多系统环境中自定义安装）。</p>
+</section>
+<section id="manjaro">
+<h2>Manjaro（★★☆☆☆☆）<a class="headerlink" href="#manjaro" title="Link to this heading"></a></h2>
+<hr class="docutils" />
+<p>基于Arch Linux构建，也是Arch系列中最早做到适当简化用户体验的发行版之一。号称能在坚持较为激进的滚动发行模式的同时保持稳定性（还以此作为“卖点”），但在我看来这明显是谬论，实际上也就是加了一个时间很短的简单测试环节。体验上逊于Cachy OS。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rocky/nvidia.html" class="btn btn-neutral float-left" title="Rocky Linux安装NVIDIA显卡驱动的基本步骤和注意事项" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Growl.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>量子化学理论与计算化学方法 &mdash; Growl1234 v1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=9732e094" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="量子化学部分书后习题参考答案" href="solutions_manual.html" />
+    <link rel="prev" title="Instructor’s Solutions Manual to Accompany “Linear Algebra and Its Applications (6th edition)”" href="../linear_algebra/Linear_Algebra_and_Its_Applications_6e/solutions_manual.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Growl1234
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">内容目录</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../linear_algebra/index.html">线性代数</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../linear_algebra/Linear_Algebra_and_Its_Applications_6e/index.html">线性代数及其应用（第六版）原版教材及习题解析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../linear_algebra/Linear_Algebra_and_Its_Applications_6e/solutions_manual.html">习题参考答案</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">量子化学理论与计算化学方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">量子化学理论基础</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="solutions_manual.html">习题参考答案</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">分子模拟</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">计算方法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../applications/index.html">计算化学应用与软件指南</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#gaussian">适用于Gaussian</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../applications/Gaussian/slurm.html">向Slurm集群提交Gaussian任务的两个注意事项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#orca">适用于ORCA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#vasp">适用于VASP</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html">配置VASP和一些重要工具（vaspkit、VTST）</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html#vasp">编译VASP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html#vaspkit">配置vaspkit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../applications/VASP/installation_with_extra_tools.html#vtst">配置VTST</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#cp2k">适用于CP2K</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../applications/CP2K/installation.html">从源代码配置CP2K</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#id5">个人使用过的不同计算程序对比</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../applications/index.html#id6">推荐论坛</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../linux/index.html">Linux使用杂谈</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../linux/index.html#rocky-linux">乱谈Rocky Linux的安装和初步配置</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../linux/rocky/installation.html">Rocky Linux的安装以及一些初步的使用建议</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/installation.html#rocky-linuxiso">1. 下载Rocky Linux的ISO镜像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/installation.html#u">2. 制作U盘启动盘</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/installation.html#id1">3. 重启电脑，加载U盘启动盘</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/installation.html#id2">4. 设置Rocky Linux安装选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/installation.html#id3">5. 一切就绪</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/installation.html#id4">一些额外的使用建议</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../linux/rocky/vmware_installation.html">Rocky Linux 10在虚拟机上的安装</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/vmware_installation.html#rocky-linux-10iso">1. 下载Rocky Linux 10的ISO镜像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/vmware_installation.html#vmware-workstation-pro">2. 安装VMware Workstation Pro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/vmware_installation.html#vmware">3. 配置VMware虚拟机选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/vmware_installation.html#id1">4. 启动虚拟机，加载系统安装映像</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/vmware_installation.html#rocky-linux">5. 设置Rocky Linux安装选项</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/vmware_installation.html#id2">6. 一切就绪</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../linux/rocky/nvidia.html">Rocky Linux安装NVIDIA显卡驱动的基本步骤和注意事项</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/nvidia.html#id1">1. 安装驱动</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/nvidia.html#nouveau">2. 禁用系统自带的开源驱动Nouveau，避免可能的冲突</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/nvidia.html#secure-boot">3. 关于安全启动（Secure Boot）的配置</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/nvidia.html#id2">4. 重启系统</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/rocky/nvidia.html#nvidia-smi">5. 运行指令“nvidia-smi”检查驱动是否被正确加载</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../linux/index.html#id2">乱谈各大Linux发行版的个人使用体验</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../linux/various_linux_usage.html">各大Linux发行版的简要介绍和个人初步使用体验杂谈</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#ubuntu">Ubuntu（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#rocky-linux">Rocky Linux（★★★★★★）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#red-hat-enterprise-linux-rhel">Red Hat Enterprise Linux（RHEL）（★★★★★☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#centos-stream">CentOS Stream（★★★★☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#fedora">Fedora（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#openeuler-font-color-brown-font">OpenEuler <font color=brown>（国产）</font>（★★☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#arch-linux">Arch Linux（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#kylin-server-v11-font-color-brown-font">银河麒麟（Kylin）Server V11 <font color=brown>（国产）</font>（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#openkylin-font-color-brown-font">OpenKylin <font color=brown>（国产）</font>（★★☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#deepin-font-color-brown-font">Deepin <font color=brown>（国产）</font>（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#uos-desktop-v20-font-color-brown-font">统信UOS Desktop V20 <font color=brown>（国产）</font>（★☆☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#cachy-os">Cachy OS（★★★★☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#debian">Debian（★★★★☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#almalinux">AlmaLinux（★★★★★☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#opensuse-leap-15-6">OpenSUSE Leap 15.6（★★★☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#linux-mint">Linux Mint（★★☆☆☆☆）</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../linux/various_linux_usage.html#manjaro">Manjaro（★★☆☆☆☆）</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Growl1234</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">量子化学理论与计算化学方法</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/quantum/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>量子化学理论与计算化学方法<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>这里收录了一些与量子化学和计算化学相关的基础知识的外文书籍。</p>
+<section id="id2">
+<h2>量子化学理论基础<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="../_static/pdf/quantum/Quantum_Chemistry_7e.pdf">📄 量子化学 (Levine 著) (第7版)</a></p>
+<p><a class="reference external" href="../_static/pdf/quantum/Levine_2e_Chinese.pdf">📄 量子化学 (Levine 原著) (第2版中译本)</a></p>
+<p><a class="reference external" href="../_static/pdf/quantum/Molecular_Quantum_Mechanics_5e.pdf">📄 分子量子力学 (P. W. Atkins 著) (第5版)</a></p>
+<p><a class="reference external" href="./solutions_manual.html">习题参考答案</a></p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="id4">
+<h2>分子模拟<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="../_static/pdf/quantum/Molecular_Modelling_for_Beginners.pdf">📄 分子模拟入门 (Alan Hinchliffe 著)</a></p>
+</section>
+<section id="id5">
+<h2>计算方法<a class="headerlink" href="#id5" title="Link to this heading"></a></h2>
+<p><a class="reference external" href="../_static/pdf/quantum/DFT.pdf">📄 Density Functional Theory: A Practical Introduction</a></p>
+<p><a class="reference external" href="../_static/pdf/quantum/Computational_Chemistry.pdf">📄 Computational Chemistry: A Practical Guide for Applying Techniques to Real-World Problems</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../linear_algebra/Linear_Algebra_and_Its_Applications_6e/solutions_manual.html" class="btn btn-neutral float-left" title="Instructor’s Solutions Manual to Accompany “Linear Algebra and Its Applications (6th edition)”" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="solutions_manual.html" class="btn btn-neutral float-right" title="量子化学部分书后习题参考答案" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Growl.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
