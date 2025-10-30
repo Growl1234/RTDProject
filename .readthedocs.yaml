@@ -20,7 +20,4 @@ sphinx:
 python:
   install:
     - method: pip
-      packages:
-        - sphinx
-        - sphinx_rtd_theme
-        - recommonmark
+    - requirements: source/requirements.txt
