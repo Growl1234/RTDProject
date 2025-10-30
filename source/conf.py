@@ -7,7 +7,6 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Growl1234'
-copyright = 'Growl'
 author = 'UW'
 release = 'v1.0'
 
@@ -39,5 +38,5 @@ html_theme_options = {
 html_sidebars = {
     '**': ['globaltoc.html', 'relations.html', 'searchbox.html'],
 }
-
+html_show_copyright = False
 
