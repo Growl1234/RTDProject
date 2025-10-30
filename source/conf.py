@@ -34,6 +34,7 @@ html_theme_options = {
     'sticky_navigation': True,
     'navigation_depth': 5,
     'titles_only': False,
+    "prev_next_buttons_location": None,
 }
 html_sidebars = {
     '**': ['globaltoc.html', 'relations.html', 'searchbox.html'],
