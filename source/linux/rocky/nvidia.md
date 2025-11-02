@@ -20,7 +20,7 @@ sudo grubby --args="nouveau.modeset=0 rd.driver.blacklist=nouveau" --update-kern
 
 ### 3. 关于安全启动（Secure Boot）的配置
 
-大多数个人电脑通常都默认开启安全启动（Secure Boot），但这会阻碍NVIDIA显卡驱动在Linux下的运行。鉴于安全启动能起到的实际作用已经微乎其微，可以直接在重启时进入BIOS将其关掉；如果不想关安全启动，则需要导入dkms的密钥让设备进入Linux时允许运行该驱动程序，操作步骤如下：
+大多数个人电脑通常都默认开启安全启动（Secure Boot），但这会阻碍NVIDIA显卡驱动在Linux下的运行；又鉴于安全启动能起到的实际保护作用微乎其微，建议直接在重启时进入BIOS将其关掉。如果不想关安全启动，则需要导入dkms的密钥让设备进入Linux时允许运行该驱动程序，操作步骤如下：
 
 （1）运行指令：
 ```
