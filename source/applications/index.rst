@@ -34,24 +34,27 @@
 适用于VASP
 ~~~~~~~~~~
 
-`关于配置VASP和一些重要工具（vaspkit、VTST）的简要说明 <./VASP/installation_with_extra_tools.html>`_
-
 `🔗 Learn VASP the Hard Way <https://www.bigbrosci.com/>`_
 
 `🔗 VASP Wiki <https://www.vasp.at/wiki/>`_
+
+`关于配置VASP和一些重要工具（vaspkit、VTST）的简要说明 <./VASP/installation_with_extra_tools.html>`_
+
+`VASP的收敛性测试及脚本文件 <./VASP/convtest.html>`_
 
 .. toctree::
    :maxdepth: 5
    :hidden:
 
    VASP/installation_with_extra_tools
+   VASP/convtest
 
 适用于CP2K
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-`从源代码配置CP2K <./CP2K/installation.html>`_
+关于CP2K的很多东西，下面推荐的思想家公社和计算化学公社中已经有不少博文和帖子讨论、说明得比较详细了，另外还有卢天老师（Sobereva）的`北京科音CP2K第一性原理计算培训班 <http://www.keinsci.com/KFP>`_供你进一步系统学习CP2K（不是打广告，但该课程的确性价比高，感兴趣的话可以考虑考虑），因此未来大概率不会对这一模块做什么多余的扩充。
 
-`🔗 卢天（Sobereva）：驳网上流传的对CP2K缺点的不实描述 <http://sobereva.com/729>`_
+`从源代码配置CP2K <./CP2K/installation.html>`_
 
 .. toctree::
    :maxdepth: 5

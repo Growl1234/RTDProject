@@ -18,7 +18,7 @@
 
 VASP开发者强烈建议加上HDF5的支持，此时需要注意使用的HDF5的编译环境，应与VASP的编译环境相同（即使用相同的编译器，需要在预配置HDF5时手动指定）。
 
-VASP的DFT-D4功能通过向外链接程序包实现。如果想用DFT-D4，需要在“makefile.include”中自行加上链接到DFT-D4程序包的配置选项（见[DFT-D4官网](https://dftd4.github.io/dftd4/)）。
+VASP的DFT-D4功能通过向外链接程序包实现。如果想用DFT-D4，需要在“makefile.include”中自行加上链接到DFT-D4程序包的配置选项（见[DFT-D4官网](https://dftd4.github.io/dftd4/)）。需要注意的是，DFT-D4程序包只支持OpenMP并行而不支持MPI并行，因此必须用含omp尾缀的makefile.include文件，且纯MPI并行中DFT-D4环节的耗时会比较显著（表现为SCF迭代完成后到显示该轮SCF最终能量前会“卡”一段时间），加之DFT-D4相比DFT-D3(BJ)的实际改进比较有限，建议在需要用色散校正的情况下优先考虑VASP自带形式的DFT-D3(BJ)。
 
 ### 配置vaspkit
 

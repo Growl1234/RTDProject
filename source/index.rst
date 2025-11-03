@@ -7,7 +7,7 @@ Welcome!
 This is Growl1234 from Nankai University.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Here are a few things I want to share with you if you're interested in quantum chemistry and computational chemistry.
+Here are a few things I want to share with you if you're interested in quantum chemistry and computational chemistry. Though you may not feel them useful, I find joy in doing it. 😋
 
 ----
 
