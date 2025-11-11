@@ -12,8 +12,6 @@
 
 `🔗 Gaussian 16 Users Reference <https://gaussian.com/man/>`_
 
-`🔗 Gaussian支持的基组以及输入基组时的一些注意事项 <http://gaussian.com/basissets/>`_
-
 `📄 Exploring Chemistry with Electronic Structure Methods (2nd edition) <../_static/pdf/gaussian/ExpChem_2e.pdf>`_
 
 `📄 Gaussian 量子化学计算手册（ExpChem第二版中文节译本） <../_static/pdf/gaussian/ExpChem_2e_Chinese_partly.pdf>`_
