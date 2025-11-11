@@ -6,7 +6,7 @@
 
 ### 1. 安装驱动
 
-严格按照[NVIDIA官网链接相应页面](https://docs.nvidia.com/datacenter/tesla/driver-installation-guide)操作（正式安装部分Rocky Linux属于“Red Hat Enterprise Linux”一节），至重新启动之前（完成下面的步骤2和3前不要重启）。
+严格按照[NVIDIA官方文档相应页面](https://docs.nvidia.com/datacenter/tesla/driver-installation-guide)操作（正式安装部分Rocky Linux属于“Red Hat Enterprise Linux”一节），至重新启动之前（完成下面的步骤2和3前不要重启）。
 
 **特别注意以下几点：**
 
@@ -48,7 +48,7 @@ sudo mokutil --import /var/lib/dkms/mok.pub
 
 1. “NVIDIA-SMI cannot communicate with driver”，即该指令压根就没有跟驱动程序正确对接上。出现这个问题，八成是关于安全启动的那一步没有弄，把涉及安全启动那一步完整弄了就行。剩下两成可能是你的系统和软件环境跟驱动版本不兼容（基本是系统内核或软件仓库太老或者太新，比如Fedora最新发布版可能因为更新策略太激进而导致这种不兼容问题），或者驱动程序版本和显卡硬件不兼容。
 
-2. “No devices were found”，即该指令与驱动程序正确对接了，但却完全没有识别到显卡设备。对于这个问题，说说可能性较大的几种情况：如果你的显卡不是太老，应当尽量选择开源模块（第一部分有提到）；对于版本10.0，应当先检查以下自己有没有更新到最新的内核版本，更新并重启以进入新内核后建议再执行一下“nvidia-modprobe && nvidia-modprobe -u”然后重启电脑，问题大概率会得到解决。
+2. “No devices were found”，即该指令与驱动程序正确对接了，但却完全没有识别到显卡设备。对于这个问题，说说最有可能的两种情况（其实都在前面提到过了）：对于版本10.0，应当先检查以下自己有没有更新到最新的内核版本；如果你的显卡不是太老，应当尽量选择开源模块。实施相应措施后建议再执行一下“nvidia-modprobe && nvidia-modprobe -u”然后重启电脑，问题大概率会得到解决。
 
 如果你非要一根筋不信邪地通过“.run”驱动安装程序装驱动，那么上面两种报错都有很大概率触发。对于这样做的用户我放弃治疗。
 
