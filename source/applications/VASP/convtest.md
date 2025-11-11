@@ -24,7 +24,7 @@ ENCUT可以根据POTCAR文件来设置，原则上不得低于所有元素中ENM
 #!/bin/bash
 
 template_file=INCAR   #Template file of present system
-vasp_bin=/root/VASP/src/vasp.6.5.1/bin/vasp_std   #CP2K command
+vasp_bin=/root/VASP/src/vasp.6.5.1/bin/vasp_std   #VASP command
 nproc_to_use=24   #Total number of CPU cores to use
 recalc=0
 #encuts= "400 425 450 475 500 525 550"
