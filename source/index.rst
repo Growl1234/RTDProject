@@ -9,6 +9,8 @@ This is Growl1234 from Nankai University.
 
 Here are a few things I want to share with you if you're interested in quantum chemistry and computational chemistry. Though you may not feel them useful, I find joy in doing it. 😋
 
+If there are anything to ask, feel free to simply drop a message in the GitHub discussions page (https://github.com/Growl1234/RTDProject/discussions). I'll do my best to check in when I can.
+
 ----
 
 **WARNING: YOU ARE NOT ALLOWED TO DISTRIBUTE ANY DOCUMENTS INSIDE EXCEPT FOR SPECIALLY MARKED ONES!!!**
