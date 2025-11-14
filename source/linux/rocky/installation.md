@@ -50,7 +50,7 @@
 
 ### 一些额外的使用建议
 
-1. 将repo源更换为国内镜像源往往会令下载速度有明显提升，建议安装完后初次打开系统首先操作这个。个人推荐中科大镜像源，教程见[https://mirrors.ustc.edu.cn/help/rocky.html](https://mirrors.ustc.edu.cn/help/rocky.html)。
+1. 将repo源更换为国内镜像源往往会令下载速度有明显提升，建议安装完后初次打开系统首先操作这个。个人推荐中科大镜像源（后面涉及换源操作的也都以更换至中科大镜像源为例），教程见[https://mirrors.ustc.edu.cn/help/rocky.html](https://mirrors.ustc.edu.cn/help/rocky.html)。
 2. 强烈建议安装并换源完毕后首先运行“dnf update -y”将系统关键组件（尤其是Linux内核即kernel）更新到最新版本。
 3. 建议运行指令“dnf install epel-release -y”安装EPEL，这个是Fedora专门为红帽系列的下游分发制作的软件仓库，包含了很多重要但官方仓库没有收录的程序包，对于很多额外的功能和体验都是必需的。安装完EPEL后，一般建议运行“/usr/sbin/crb enable”启用CRB仓库（Codeready Builder），并将EPEL更换为国内镜像源（教程见[https://mirrors.ustc.edu.cn/help/epel.html](https://mirrors.ustc.edu.cn/help/epel.html)）。对于10.x版本，EPEL的repo文件的指向链接通常带有“{$releasever+-z}”字样，个人建议手动去掉。
 4. 建议添加国内flathub源方便从GNOME Software下载一些可能需要的桌面程序。教程见[https://mirrors.ustc.edu.cn/help/flathub.html](https://mirrors.ustc.edu.cn/help/flathub.html)。
