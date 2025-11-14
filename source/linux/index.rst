@@ -7,7 +7,7 @@ Linux使用杂谈
 乱谈Rocky Linux的安装和初步配置
 ~~~~~~~~~~~~~~
 
-**【注：本部分文章均默认你的CPU是x86_64架构，且同时也适用于除Rocky Linux外的其他基于Red Hat Enterprise Linux的发行版（包括RHEL本尊及其中游CentOS Stream，但不包括上游Fedora）。】**
+**【注：本部分文章均默认你的CPU是x86_64架构，且同时也适用于除Rocky Linux外的其他基于Red Hat Enterprise Linux的发行版（包括RHEL本尊及其中游CentOS Stream，但不包括上游Fedora）；由于我没用过也不爱用WSL，因此下面所有的文章都不关WSL的事，对于WSL我也无法给出任何帮助和建议。】**
 
 `Rocky Linux的安装以及一些初步的使用建议 <./rocky/installation.html>`_
 
