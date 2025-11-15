@@ -12,7 +12,7 @@
 
 1. 文档中向系统添加软件仓库的指令里的“$distro”和“$arch”应当根据教程章节开头的对应关系自行修改成相应值（本例中$distro是rhel10或rhel9，$arch是x86_64），否则系统无法识别相应部分，导致添加软件仓库失败。
 
-2. NVIDIA显卡的Linux版驱动区分专有模块（即“cuda-drivers”）和开源模块（“nvidia-open”），两者没有任何功能上的区别，但适用的架构不尽相同。文档中“Kernel Modules”一节建议道，对于较新的版本和架构应当选用开源模块；笔者也实测过，对于较新架构的GPU（例如GeForce RTX 40/50系列），如果选用专有模块的驱动程序，有偶然的概率会出现问题（最后一部分会提到）。
+2. NVIDIA显卡的Linux版驱动区分专有模块（即“cuda-drivers”）和开源模块（“nvidia-open”），两者没有任何功能上的区别，但适用的架构不尽相同。文档中“Kernel Modules”一节给了大致说明，并建议对较新架构的GPU选用开源模块（尤其注意今年最新的GeForce RTX 50系列，该系列已不再支持专有模块）。如果不确定自己的显卡应该选择哪种模块，请在添加CUDA仓库后先安装并运行“nvidia-driver-assistant”，输出结果会直接告诉你答案。
 
 3. **<font color=red>不要自以为是或者听信一些低质量教程到NVIDIA驱动下载页面直接下载和运行“.run”后缀的程序来安装驱动！</font>这种安装方式早已因兼容性差和乱改系统文件而闻名遐迩。**
 
@@ -48,9 +48,9 @@ sudo mokutil --import /var/lib/dkms/mok.pub
 
 经个人实测，无论在RHEL、CentOS Stream上还是Rocky、AlmaLinux等下游重构版上，严格按上述步骤安装驱动程序100%不会出问题。尽管如此，总会有人抱有侥幸心理，“我行我素”地盲目操作，结果就是安装不成功，“nvidia-smi”也无法正常执行。关于常见的两种运行“nvidia-smi”时可能的报错，我还是提一下：
 
-1. “NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.”，即该指令压根就没有跟驱动程序正确对接上。出现这个问题，很有可能是没有注意关于安全启动的问题，把涉及安全启动那一步完整弄了就行；还可能是你的系统和软件环境跟驱动版本不兼容（基本是系统内核或软件仓库太老或者太新，例如Fedora常常因为更新策略太激进而导致在最新发布版上出现这种不兼容问题，此时就不要再黏着官方仓库不放了，应当找找其他能够提供驱动程序的可靠仓库，比如ELRepo和RPM Fusion）。
+1. “NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.”，即该指令压根就没有跟驱动程序正确对接上。出现这个问题，很有可能是没有注意关于安全启动的问题，把涉及安全启动那一步完整弄了就行；还可能是你的系统和软件环境跟驱动版本不兼容（基本是系统内核或软件仓库太老或者太新，例如Fedora常常因为更新策略太激进而导致在最新发布版上出现这种不兼容问题，此时再黏着官方仓库不放也解决不了问题了，只能找找其他能够提供驱动程序的可靠仓库，比如ELRepo和RPM Fusion）。
 
-2. “No devices were found.”，即该指令与驱动程序正确对接了，但却完全没有识别到显卡设备。对于这个问题，应当认真查看相关的日志文件（一个有用的日志查看指令为journalctl，建议了解下其用法），寻找病因并对症下药。前面说过，对于较新架构的GPU，应当尽量选择开源模块，否则有概率出现这一报错（我就曾经遇到过，经过日志排查发现其中明确写了“The NVIDIA GPU installed in this system requires use of the NVIDIA open kernel modules.”）。另外，记住这个指令：“nvidia-modprobe && nvidia-modprobe -u”，它往往在错误排查和问题解决中起到不小的辅助作用。
+2. “No devices were found.”，即该指令与驱动程序正确对接了，但却完全没有识别到显卡设备。对于这个问题，应当认真查看相关的日志文件（一个有用的日志查看指令为journalctl，建议了解下其用法），寻找病因并对症下药。选错安装模块是导致这一报错最常见的原因之一（例如，如果你的显卡是GeForce RTX 50系列但是选择安装了专有模块，运行“nvidia-smi”出现了这一报错，进行日志排查将发现其中明确写了“The NVIDIA GPU installed in this system requires use of the NVIDIA open kernel modules.”）。另外，记住这个指令：“nvidia-modprobe && nvidia-modprobe -u”，它往往在错误排查和问题解决中起到不小的辅助作用。
 
 如果你非要一根筋不信邪地通过“.run”驱动安装程序装驱动，那么上面两种报错都有很大概率触发。对于这样做的用户我放弃治疗。
 
