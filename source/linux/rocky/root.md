@@ -14,13 +14,13 @@
 
 ### root用户下系统无法输出声音，怎么办？
 
-这种情况是因为**系统使用的pipewire组件配置屏蔽了root用户**。如果你使用root用户并且对声音输出有需要，只需在/usr/lib/systemd/user目录下找到pipewire.socket、pipewire.service、pipewire-pulse.socket、pipewire-pulse.service这四个文件，并将里面的"ConditionUser=!root"一行删掉即可，完后运行“sudo systemctl daemon-reload && systemctl --user restart pipewire.service pipewire-pulse.service”指令或者重启电脑，音频输出就正常了。
+这种情况是因为**系统使用的pipewire组件配置屏蔽了root用户**。如果你使用root用户并且对声音输出有需要，只需在/usr/lib/systemd/user目录下找到pipewire.socket、pipewire.service、pipewire-pulse.socket、pipewire-pulse.service这四个文件，并将里面的"ConditionUser=!root"一行删掉即可，完后运行“sudo systemctl daemon-reload && systemctl \--user restart pipewire.service pipewire-pulse.service”指令或者重启电脑，音频输出就正常了。
 
 ### root无法正常运行一些程序，怎么办？
 
 分为两种情况：
 
-1. 对于**以沙盒方式运行**的程序，root用户无法运行之，必须在执行指令中加上“--no-sandbox”使其脱离沙盒环境运行。（也因为这个特性，我不建议在root用户下通过flatpak下载和安装这类软件，通过rpm安装的或者直接给了AppImage的要加“--no-sandbox”执行比flatpak软件包要方便不少。）
+1. 对于**以沙盒方式运行**的程序，root用户无法运行之，必须在执行指令中加上“\--no-sandbox”使其脱离沙盒环境运行。（也因为这个特性，我不建议在root用户下通过flatpak下载和安装这类软件，通过rpm安装的或者直接给了AppImage的要加“\--no-sandbox”执行比flatpak软件包要方便不少。）
 
 2. 不少程序包**本身**对root设置了额外的限制，这其中包括科学计算常用的OpenMPI、GNOME 46起的文件资源管理器Nautilus等。这种限制看似是对系统的一种保护，但在我来看颇有多管闲事之嫌，毕竟我自己就是用root用户，因为这样省去了许多不必要的麻烦，而且我从来没有也不可能因为root把系统弄坏（除非脑子坏了）。对于一些常用软件，可以通过修改源代码和设置环境变量等方法解决。
 
