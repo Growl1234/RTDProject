@@ -30,20 +30,33 @@
 
 <p style="margin-left: 20px; margin-right: 20px;">
 在Rocky Linux 10使用的GNOME 47中，nautilus会在root用户打开时延迟、卡顿好几秒钟才能进入；从命令行运行nautilus指令时，会先输出警告，大意是在root用户和sudo权限下运行nautilus会使其不正常工作。这种迷之操作挺令我感觉不适的。后来终于想到检查源代码了，检查发现原来是源代码目录下的src/nautilus-main.c文件中用if代码施加了这一限制操作，即用户启动nautilus时程序会自动检查当前用户身份，发现是root就执行限制操作（“sleep (7)”即延后七秒执行后续代码）。这种限制给我的感觉纯粹是多管闲事、败坏好感！
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 既然原因找出来了，解决办法也就显而易见了：**直接修改源代码！**完整步骤如下：首先，从镜像库中找到并下载软件对应的src.rpm文件，使用rpmbuild释放出真实的源代码架构和构建配置；然后，在源代码目录下的src/nautilus-main.c里面找到“if (getuid () == 0)”,将对应段落（一直到这个if对应的}符号为止）删掉；最后，使用rpmbuild重新构建安装包（这里有两个注意事项，后面我单另写了两段以作说明）并覆盖安装nautilus（记得在指令中加--reinstall，并在覆盖安装前关闭文件资源管理器窗口）。这样之后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 **与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。倘若日后系统仓库中的nautilus有小更新，我会及时将这里的安装包也同步到最新版本。**
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 [📦nautilus.zip](../../_static/packages/nautilus.zip)
+</p>
 
-
+<p style="margin-left: 20px; margin-right: 20px;">
 **注：在Rocky Linuz 10中的利用rpmbuild重新构建nautilus的rpm安装包这一步，有两个额外的注意事项：**
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 1. **需要通过dnf安装很多额外的包才能顺利构建出nautilus**，如果缺失的话会在运行rpm -ba构建指令时一开始就报错并给出很清晰的提示；基本上每行的needed的前面都直接就是软件包名，如果是pkgconfig开头的则是后面括号里的是软件包名（有少数几个括号中gstream开头的则并非如此，它们是gstreamer1-plugins-base-devel的组件，对应需要安装的是gstreamer1-plugins-base-devel）；如果搞不懂的话，把那若干行贴出来给grok并问在Rocky Linux 10中分别需要什么包就可以得到答案。注意其中包括meson包，这个只有CRB仓库中有，因此需要先运行“dnf config-manager --set-enabled crb”启用CRB库才能装meson。
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 2. **需要在当前终端临时清空LD_LIBRARY_PATH和LD_RUN_PATH**，否则这些里面包含的路径会对构建过程造成干扰，导致构建安装包的过程在最后失败；办法就是分别执行“export LD_LIBRARY_PATH=”和“export LD_RUN_PATH=”（没错，等号后面不加任何字符）。
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 另注：Rocky Linux 9.x中的nautilus完全不存在这一问题。在Fedora 43使用的GNOME 49中，root用户下直接打不开nautilus窗口了，这个警告也变成了“Running nautilus as root is not supported.”，原因和解决办法与上面所说相同。
 </p>
 
@@ -51,14 +64,20 @@
 
 <p style="margin-left: 20px; margin-right: 20px;">
 OpenMPI在root下运行mpirun时候，要求指令中额外加上“--allow-run-as-root”选项，然而对于一些内置mpirun的程序（比如ORCA），想实现这种做法却没那么容易和直接（直接写指令或alias识别不进去，可能需要用到函数功能）。想要避免这种情况，同时让自己不再需要加--allow-run-as-root，可以通过**写入环境变量**来解决，即往~/.bashrc文件中加入以下两行：
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 ```bash
 export OMPI_ALLOW_RUN_AS_ROOT=1
 export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 ```
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 这样，在source ~/.bashrc或者打开新终端后，就可以不加--allow-run-as-root直接运行mpirun任务了。
+</p>
 
+<p style="margin-left: 20px; margin-right: 20px;">
 修改源代码的方法也可以实现上述目的，操作见[http://sobereva.com/409](http://sobereva.com/409)，不过相比上面写入环境变量的做法麻烦多了。
 </p>
 
