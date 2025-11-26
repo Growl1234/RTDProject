@@ -40,12 +40,12 @@
 <strong>与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。倘若日后系统仓库中的nautilus有小更新，我会及时将这里的安装包也同步到最新版本。</strong>
 </p>
 
-<p style="margin-left: 20px; margin-right: 20px;">
+<p style="margin-left: 20px; margin-right: 20px; font-size: 17px;"><strong>
 <a href="../../_static/packages/nautilus.zip">📦nautilus.zip</a>
-</p>
+</strong></p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
-<strong>注：在Rocky Linuz 10中的利用rpmbuild重新构建nautilus的rpm安装包这一步，有两个额外的注意事项：</strong>
+<strong>注：在Rocky Linux 10中的利用rpmbuild重新构建nautilus的rpm安装包这一步，有两个额外的注意事项：</strong>
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
