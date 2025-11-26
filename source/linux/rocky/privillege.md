@@ -66,8 +66,8 @@
 OpenMPI在root下运行mpirun时候，要求指令中额外加上“--allow-run-as-root”选项，然而对于一些内置mpirun的程序（比如ORCA），想实现这种做法却没那么容易和直接（直接写指令或alias识别不进去，可能需要用到函数功能）。想要避免这种情况，同时让自己不再需要加--allow-run-as-root，可以通过<strong>写入环境变量</strong>来解决，即往~/.bashrc文件中加入以下两行：
 </p>
 
-<p style="margin-left: 20px; margin-right: 20px;"><pre><code>
-export OMPI_ALLOW_RUN_AS_ROOT=1
+<pre style="margin-left: 20px; margin-right: 20px;"><code class="language-bash">
+export OMPI_ALLOW_RUN_AS_ROOT=1 <br>
 export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 </code></pre></p>
 
