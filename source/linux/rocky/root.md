@@ -33,7 +33,7 @@
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
-既然原因找出来了，解决办法也就显而易见了：<strong>直接修改源代码！</strong>完整步骤如下：首先，从镜像库中找到并下载软件对应的src.rpm文件，使用rpmbuild释放出真实的源代码架构和构建配置（rpm -ivh [target_file]；释放出的东西在~/rpmbuild目录中）；然后，在源代码目录下的src/nautilus-main.c里面找到“if (getuid () == 0)”,将对应段落（一直到这个if对应的}符号为止）删掉；最后，使用rpmbuild重新构建安装包（rpm -ba [spec_filename]；这里有两个注意事项，后面我单另写了两段以作说明）并覆盖安装nautilus（记得在指令中加--reinstall，并在覆盖安装前关闭文件资源管理器窗口）。这样之后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
+既然原因找出来了，解决办法也就显而易见了：<strong>直接修改源代码！</strong>完整步骤如下：首先，从镜像库中找到并下载软件对应的src.rpm文件，使用rpmbuild释放出真实的源代码架构和构建配置（rpm -ivh <i>src_rpm</i>；释放出的东西在~/rpmbuild目录中）；然后，在源代码目录下的src/nautilus-main.c里面找到“if (getuid () == 0)”,将对应段落（一直到这个if对应的}符号为止）删掉；最后，使用rpmbuild重新构建二进制安装包（rpm -bb <i>spec_filename</i>；这里有两个注意事项，后面我单另写了两段以作说明）并覆盖安装nautilus（rpm -ivh --reinstall <i>binary_rpm</i>，在覆盖安装前最好关闭文件资源管理器窗口）。这样之后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
@@ -49,7 +49,7 @@
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
-1. <strong>需要通过dnf安装很多额外的包才能顺利构建出nautilus，</strong>如果缺失的话会在运行rpm -ba构建指令时一开始就报错并给出很清晰的提示；基本上每行的needed的前面都直接就是软件包名，如果是pkgconfig开头的则是后面括号里的是软件包名（有少数几个括号中gstream开头的则并非如此，它们是gstreamer1-plugins-base-devel的组件，对应需要安装的是gstreamer1-plugins-base-devel）；如果搞不懂的话，把那若干行贴出来给grok并问在Rocky Linux 10中分别需要什么包就可以得到答案。注意其中包括meson包，这个只有CRB仓库中有，因此需要先运行“dnf config-manager --set-enabled crb”启用CRB库才能装meson。
+1. <strong>需要通过dnf安装很多额外的包才能顺利构建出nautilus，</strong>如果缺失的话会在运行rpm -bb构建指令时一开始就报错并给出很清晰的提示；基本上每行的needed的前面都直接就是软件包名，如果是pkgconfig开头的则是后面括号里的是软件包名（有少数几个括号中gstream开头的则并非如此，它们是gstreamer1-plugins-base-devel的组件，对应需要安装的是gstreamer1-plugins-base-devel）；如果搞不懂的话，把那若干行贴出来给grok并问在Rocky Linux 10中分别需要什么包就可以得到答案。注意其中包括meson包，这个只有CRB仓库中有，因此需要先运行“dnf config-manager --set-enabled crb”启用CRB库才能装meson。
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
