@@ -67,7 +67,7 @@ OpenMPI在root下运行mpirun时候，要求指令中额外加上“--allow-run-
 </p>
 
 ```bash
-export OMPI_ALLOW_RUN_AS_ROOT=1 <br>
+export OMPI_ALLOW_RUN_AS_ROOT=1
 export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 ```
 
