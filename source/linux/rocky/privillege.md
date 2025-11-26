@@ -76,7 +76,7 @@ export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
-修改源代码的方法也可以实现上述目的，操作见<a href="http://sobereva.com/409">http://sobereva.com/409</a>，不过相比上面写入环境变量的做法麻烦多了。
+修改源代码的方法也可以实现上述目的，操作见<a href="http://sobereva.com/409">http://sobereva.com/409</a>，不过相比上面写入环境变量的做法麻烦多了（该博文也包含写入环境变量的做法）。
 </p>
 
 **(3) VLC**
