@@ -33,7 +33,7 @@
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
-既然原因找出来了，解决办法也就显而易见了：<strong>直接修改源代码！</strong>完整步骤如下：首先，从镜像库中找到并下载软件对应的src.rpm文件，使用rpmbuild释放出真实的源代码架构和构建配置；然后，在源代码目录下的src/nautilus-main.c里面找到“if (getuid () == 0)”,将对应段落（一直到这个if对应的}符号为止）删掉；最后，使用rpmbuild重新构建安装包（这里有两个注意事项，后面我单另写了两段以作说明）并覆盖安装nautilus（记得在指令中加--reinstall，并在覆盖安装前关闭文件资源管理器窗口）。这样之后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
+既然原因找出来了，解决办法也就显而易见了：<strong>直接修改源代码！</strong>完整步骤如下：首先，从镜像库中找到并下载软件对应的src.rpm文件，使用rpmbuild释放出真实的源代码架构和构建配置（rpm -ivh [target_file]；释放出的东西在~/rpmbuild目录中）；然后，在源代码目录下的src/nautilus-main.c里面找到“if (getuid () == 0)”,将对应段落（一直到这个if对应的}符号为止）删掉；最后，使用rpmbuild重新构建安装包（rpm -ba [spec_filename]；这里有两个注意事项，后面我单另写了两段以作说明）并覆盖安装nautilus（记得在指令中加--reinstall，并在覆盖安装前关闭文件资源管理器窗口）。这样之后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
