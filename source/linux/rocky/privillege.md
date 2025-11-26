@@ -20,28 +20,17 @@
 
 分为两种情况：
 
-1. 对于**以沙盒方式运行**的程序，root用户无法运行之，必须在执行指令中加上“--no-sandbox”使其脱离沙盒环境运行。也因为这个特性，我不建议在root用户下通过flatpak下载和安装这类软件，因为通过rpm安装的或者直接给了AppImage的要加“--no-sandbox”执行比flatpak软件包方便不少。
+1. 对于**以沙盒方式运行**的程序，root用户无法运行之，必须在执行指令中加上“--no-sandbox”使其脱离沙盒环境运行。（也因为这个特性，我不建议在root用户下通过flatpak下载和安装这类软件，通过rpm安装的或者直接给了AppImage的要加“--no-sandbox”执行比flatpak软件包要方便不少。）
 
-2. 不少程序包**本身**对root设置了额外的限制，这其中包括科学计算常用的OpenMPI、GNOME 46起的文件资源管理器Nautilus等，且以图形界面为主的程序包居多。这种限制看似是对系统的一种保护，但在我来看颇有多管闲事之嫌，毕竟我自己就是用root用户，因为这样省去了许多不必要的麻烦，而且我从来没有也不可能因为root把系统弄坏（除非脑子坏了）。对于一些常用软件，可以通过修改源代码和设置环境变量等方法解决。
+2. 不少程序包**本身**对root设置了额外的限制，这其中包括科学计算常用的OpenMPI、GNOME 46起的文件资源管理器Nautilus等。这种限制看似是对系统的一种保护，但在我来看颇有多管闲事之嫌，毕竟我自己就是用root用户，因为这样省去了许多不必要的麻烦，而且我从来没有也不可能因为root把系统弄坏（除非脑子坏了）。对于一些常用软件，可以通过修改源代码和设置环境变量等方法解决。
 
-下面给出三个示例，分别是MPI并行工具OpenMPI、GNOME文件资源管理器nautilus和功能强大的视频播放器VLC。
+下面针对第二种情况给出三个示例，分别是GNOME文件资源管理器nautilus、MPI并行工具OpenMPI和功能强大的视频播放器VLC。
 
-**(1) OpenMPI**
+**(1) Nautilus（GNOME文件资源管理器）**
 
-OpenMPI在root下运行mpirun时候，要求指令中额外加上“--allow-run-as-root”选项，然而对于一些内置mpirun的程序（比如ORCA），这种做法却不生效。想要避免这种情况，同时让自己不再需要加--allow-run-as-root，可以通过**写入环境变量**来解决，即往~/.bashrc文件中加入以下两行：
+在Rocky Linux 10使用的GNOME 47中，nautilus会在root用户打开时延迟、卡顿好几秒钟才能进入；从命令行运行nautilus指令时，会先输出警告，大意是在root用户和sudo权限下运行nautilus会使其不正常工作。这种迷之操作挺令我感觉不适的。后来终于想到检查源代码了，检查发现原来是源代码目录下的src/nautilus-main.c文件中用if代码施加了这一限制操作，即用户启动nautilus时程序会自动检查当前用户身份，发现是root就执行限制操作（“sleep (7)”即延后七秒执行后续代码）。这种限制给我的感觉纯粹是多管闲事、败坏好感！
 
-```bash
-export OMPI_ALLOW_RUN_AS_ROOT=1
-export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
-```
-
-这样，在source ~/.bashrc或者打开新终端后，就可以不加--allow-run-as-root直接运行mpirun任务了。
-
-**(2) Nautilus（GNOME文件资源管理器）**
-
-在Rocky Linux 10使用的GNOME 47中，nautilus会在root用户打开时延迟、卡顿好几秒钟才能进入；从命令行运行nautilus指令时，会先输出警告，大意是在root用户和sudo权限下运行nautilus会使其不正常工作。这种迷之操作挺令我感觉不适的；后来终于想到检查源代码了，检查结果却令我有点恼火：这个限制是开发者在源代码目录下的src/nautilus-main.c里面用if代码完全主动施加的，即用户启动nautilus时程序会自动检查当前用户身份，发现是root就执行限制操作（“sleep (7)”即延后七秒执行后续代码）。纯粹是多管闲事、败坏好感！
-
-不过，既然原因找出来了，解决办法也就显而易见了：**直接修改源代码！**完整步骤如下：首先，从镜像库中找到并下载软件对应的src.rpm文件，使用rpmbuild释放出真实的源代码架构和构建配置；然后，在源代码目录下的src/nautilus-main.c里面找到“if (getuid () == 0)”,将对应段落（一直到这个if对应的}符号为止）删掉；最后，使用rpmbuild重新构建安装包（这里有两个注意事项，后面我单另写了两段以作说明）并覆盖安装nautilus（记得在指令中加--reinstall，并在覆盖安装前关闭文件资源管理器窗口）。这样之后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
+既然原因找出来了，解决办法也就显而易见了：**直接修改源代码！**完整步骤如下：首先，从镜像库中找到并下载软件对应的src.rpm文件，使用rpmbuild释放出真实的源代码架构和构建配置；然后，在源代码目录下的src/nautilus-main.c里面找到“if (getuid () == 0)”,将对应段落（一直到这个if对应的}符号为止）删掉；最后，使用rpmbuild重新构建安装包（这里有两个注意事项，后面我单另写了两段以作说明）并覆盖安装nautilus（记得在指令中加--reinstall，并在覆盖安装前关闭文件资源管理器窗口）。这样之后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
 
 **与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。倘若日后系统仓库中的nautilus有小更新，我会及时将这里的安装包也同步到最新版本。**
 
@@ -56,7 +45,19 @@ export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
 另注：Rocky Linux 9.x中的nautilus完全不存在这一问题。在Fedora 43使用的GNOME 49中，root用户下直接打不开nautilus窗口了，这个警告也变成了“Running nautilus as root is not supported.”，原因和解决办法与上面所说相同。
 
+**(2) OpenMPI**
+
+OpenMPI在root下运行mpirun时候，要求指令中额外加上“--allow-run-as-root”选项，然而对于一些内置mpirun的程序（比如ORCA），想实现这种做法却没那么容易和直接（直接写指令或alias识别不进去，可能需要用到函数功能）。想要避免这种情况，同时让自己不再需要加--allow-run-as-root，可以通过**写入环境变量**来解决，即往~/.bashrc文件中加入以下两行：
+
+```bash
+export OMPI_ALLOW_RUN_AS_ROOT=1
+export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
+```
+
+这样，在source ~/.bashrc或者打开新终端后，就可以不加--allow-run-as-root直接运行mpirun任务了。
+
+修改源代码的方法也可以实现上述目的，操作见[http://sobereva.com/409](http://sobereva.com/409)，不过相比上面写入环境变量的做法麻烦多了。
+
 **(3) VLC**
 
 VLC是Linux下功能最强大的视频播放器之一，该程序默认在root用户中无法启动。解决方法很简单：运行指令“sed -i 's/geteuid/getppid/' /usr/bin/vlc”（显然也是将getuid相应步骤去掉）。
-
