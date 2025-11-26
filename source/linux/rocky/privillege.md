@@ -10,7 +10,7 @@
 
 ### 不想用root又嫌sudo操作要输入密码麻烦，怎么办？
 
-**执行“sudo visudo”指令编辑相应管理文件，找到“Same thing without a password”一行，把下面的“# %wheel	ALL=(ALL)	NOPASSWD: ALL”一行去掉注释（即最前面的“#”）即可。**注意这种方法只能免去在终端指令行中利用sudo执行指令的麻烦，在GNOME图形界面中若有涉及管理员权限的操作仍然需要频繁输入用户密码。
+**执行“sudo visudo”指令编辑相应管理文件，找到“Same thing without a password”一行，把下面的“# %wheel	ALL=(ALL)	NOPASSWD: ALL”一行去掉注释（即最前面的“#”）即可。** 注意这种方法只能免去在终端指令行中利用sudo执行指令的麻烦，在GNOME图形界面中若有涉及管理员权限的操作仍然需要频繁输入用户密码。
 
 ### root用户下系统无法输出声音，怎么办？
 
@@ -45,7 +45,7 @@ export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
 **与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。倘若日后系统仓库中的nautilus有小更新，我会及时将这里的安装包也同步到最新版本。**
 
-[📦nautilus.zip](../../source/_static/packages/nautilus.zip)
+[📦nautilus.zip](../../_static/packages/nautilus.zip)
 
 
 **注：在Rocky Linuz 10中的利用rpmbuild重新构建nautilus的rpm安装包这一步，有两个额外的注意事项：**
