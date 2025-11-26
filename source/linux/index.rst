@@ -15,6 +15,8 @@ Linux使用杂谈
 
 `Rocky Linux安装NVIDIA显卡驱动的基本步骤和注意事项 <./rocky/nvidia.html>`_
 
+`Rocky Linux 10 中使用root用户的一些简要说明、注意事项及障碍解决 <./rocky/privillege.html>`_
+
 .. toctree::
    :maxdepth: 5
    :hidden:
@@ -22,6 +24,7 @@ Linux使用杂谈
    rocky/installation
    rocky/vmware_installation
    rocky/nvidia
+   rocky/privillege
 
 乱谈各大Linux发行版的个人使用体验
 ~~~~~~~~~~~~~~
