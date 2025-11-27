@@ -33,7 +33,7 @@
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
-既然原因找出来了，解决办法也就显而易见了：<strong>直接修改源代码！</strong>完整步骤如下（如果懒得看，直接跳过步骤翻到后面，我给了已构建好的rpm包）：
+既然原因找出来了，解决办法也就显而易见了：<strong>直接修改源代码！</strong>完整步骤如下 <font color=red>（如果懒得看，直接跳过步骤翻到后面，我给了已构建好的rpm包）</font>：
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
