@@ -44,14 +44,15 @@ sudo mokutil --import /var/lib/dkms/mok.pub
 
 ### 5. 运行指令“nvidia-smi”检查驱动是否被正确加载
 
-如果正确加载，会输出显卡信息和使用显卡的进程信息。之后你也可以通过 <code>pip install nvitop</code> 安装nvitop工具来实时监测显卡占用情况。
+如果正确加载，会输出显卡信息和使用显卡的进程信息。之后你也可以通过 <code style="font-size: 14px;">pip install nvitop</code> 安装nvitop工具来实时监测显卡占用情况。
 
-经个人实测，无论在RHEL、CentOS Stream上还是Rocky、AlmaLinux等下游重构版上，严格按上述步骤安装驱动程序100%不会出问题。尽管如此，总会有人抱有侥幸心理，“我行我素”地盲目操作，结果就是安装不成功，<code>nvidia-smi</code> 也无法正常执行。关于常见的两种运行 <code>nvidia-smi</code> 时可能的报错，我还是提一下：
+经个人实测，无论在RHEL、CentOS Stream上还是Rocky、AlmaLinux等下游重构版上，严格按上述步骤安装驱动程序100%不会出问题。尽管如此，总会有人抱有侥幸心理，“我行我素”地盲目操作，结果就是安装不成功，<code style="font-size: 14px;">nvidia-smi</code> 也无法正常执行。关于常见的两种运行 <code style="font-size: 14px;">nvidia-smi</code> 时可能的报错，我还是提一下：
 
-1. <code>NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.</code>，即该指令压根就没有跟驱动程序正确对接上。出现这个问题，很有可能是没有注意关于安全启动的问题，把涉及安全启动那一步完整弄了就行；还可能是你的系统和软件环境跟驱动版本不兼容（基本是系统内核或软件仓库太老或者太新，例如Fedora常常因为更新策略太激进而导致在最新发布版上出现这种不兼容问题，此时再黏着官方仓库不放也解决不了问题了，只能找找其他能够提供驱动程序的可靠仓库，比如ELRepo和RPM Fusion）。
+1. <code style="font-size: 14px;">NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.</code>，即该指令压根就没有跟驱动程序正确对接上。出现这个问题，很有可能是没有注意关于安全启动的问题，把涉及安全启动那一步完整弄了就行；还可能是你的系统和软件环境跟驱动版本不兼容（基本是系统内核或软件仓库太老或者太新，例如Fedora常常因为更新策略太激进而导致在最新发布版上出现这种不兼容问题，此时再黏着官方仓库不放也解决不了问题了，只能找找其他能够提供驱动程序的可靠仓库，比如ELRepo和RPM Fusion）。
 
-2. <code>No devices were found.</code>，即该指令与驱动程序正确对接了，但却没有正确识别显卡设备。对于这个问题，应当认真查看相关的日志文件（一个有用的日志查看指令为 <code>journalctl</code>，建议了解下其用法），寻找病因并对症下药。选错安装模块是导致这一报错最常见的原因之一（例如，如果你的显卡是GeForce RTX 50系列但是选择安装了专有模块，运行 <code>nvidia-smi</code> 出现了这一报错，进行日志排查将发现其中明确写了“The NVIDIA GPU installed in this system requires use of the NVIDIA open kernel modules.”）。另外，记住这个指令：<code>nvidia-modprobe && nvidia-modprobe -u</code>，它往往在错误排查和问题解决中起到不小的辅助作用。
+2. <code style="font-size: 14px;">No devices were found.</code>，即该指令与驱动程序正确对接了，但却没有正确识别显卡设备。对于这个问题，应当认真查看相关的日志文件（一个有用的日志查看指令为 <code style="font-size: 14px;">journalctl</code>，建议了解下其用法），寻找病因并对症下药。选错安装模块是导致这一报错最常见的原因之一（例如，如果你的显卡是GeForce RTX 50系列但是选择安装了专有模块，运行 <code style="font-size: 14px;">nvidia-smi</code> 出现了这一报错，进行日志排查将发现其中明确写了“The NVIDIA GPU installed in this system requires use of the NVIDIA open kernel modules.”）。另外，记住这个指令：<code style="font-size: 14px;">nvidia-modprobe && nvidia-modprobe -u</code>，它往往在错误排查和问题解决中起到不小的辅助作用。
 
-如果你非要一根筋不信邪地通过“.run”驱动安装程序装驱动，那么上面两种报错都有几率触发，或者即使 <code>nvidia-smi</code> 能正常显示却实际上还有其他各种各样的问题。解决办法就是把该驱动程序卸载掉（执行相应.run程序时后面加 <code>--uninstall</code> ），然后老老实实按第一部分中的官方文档来。
+如果你非要一根筋不信邪地通过“.run”驱动安装程序装驱动，那么上面两种报错都有几率触发，或者即使 <code style="font-size: 14px;">nvidia-smi</code> 能正常显示却实际上还有其他各种各样的问题。解决办法就是把该驱动程序卸载掉（执行相应.run程序时后面加 <code style="font-size: 14px;">--uninstall</code> ），然后老老实实按第一部分中的官方文档来。
 
-对于一些电脑，如果BIOS中设置为独显直连（关闭集显或核显），当Linux系统没有正确加载驱动时，图形界面会直接以800*600等极低分辨率显示，且无法调节亮度。此时虽然可以确定显卡驱动加载出了问题，但具体问题仍然需要根据 <code>nvidia-smi</code> 的输出结果进行判断。
+对于一些电脑，如果BIOS中设置为独显直连（关闭集显或核显），当Linux系统没有正确加载驱动时，图形界面会直接以800*600等极低分辨率显示，且无法调节亮度。此时虽然可以确定显卡驱动加载出了问题，但具体问题仍然需要根据 <code style="font-size: 14px;">nvidia-smi</code> 的输出结果进行判断。
+

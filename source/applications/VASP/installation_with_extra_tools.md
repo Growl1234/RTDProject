@@ -6,7 +6,7 @@
 
 **【写在前面：一定要检查自己的make、cmake、gcc、g++、gfortran等编译所需要的最基本的程序包有没有安装好，否则无法编译VASP。】**
 
-编译的简要步骤为：将arch文件夹里你希望选择的makefile.include选项的文件复制到软件包主目录下并去掉注释性后缀（即更名为makefile.include），然后仔细检查里面的各种参数（必要时修改），最后执行 <code>make DEPS=1 -jN all</code> 即可（N指编译所用核数；此处使用“-j N”并行时“DEPS=1”不能漏写）。
+编译的简要步骤为：将arch文件夹里你希望选择的makefile.include选项的文件复制到软件包主目录下并去掉注释性后缀（即更名为makefile.include），然后仔细检查里面的各种参数（必要时修改），最后执行 <code style="font-size: 14px;">make DEPS=1 -jN all</code> 即可（N指编译所用核数；此处使用“-j N”并行时“DEPS=1”不能漏写）。
 
 对于Intel处理器，官网和很多教程都推荐使用Intel oneAPI + MKL，这种方法也是配置起来最简便的。对于这种方法，网上有不少配置编译VASP的教程，相差不大。唯一需要注意的是可能需要根据你所安装的Intel OneAPI版本修改“makefile.include”里面的部分内容（以v2025.0为例，修改“icc”为“icx”，“icpc”为“icpx”，“mpiifort”为“mpiifx”），以及清空MKLROOT后面的示例路径（或在整行前加#）来让编译文件读取系统默认的真实路径。另外，建议将其中的OFLAG参数里加入-xhost，这样编译器会使得编译出的程序能够利用当前机子CPU能支持的最高档次的指令集以加速计算，可以省去一些不必要的麻烦。
 
@@ -36,7 +36,7 @@ Vaspkit是一个很方便的用作VASP预-后处理的独立程序包，由国�
 
 2. 仔细阅读并按照[VTST官网的配置说明](https://theory.cm.utexas.edu/vtsttools/installation.html)进行必要的文件修改和覆盖操作（为以防万一，建议提前备份好原有src目录下的文件）。
 
-3. 回到编译时的目录，输入指令 <code>make veryclean</code> 清除之前的编译，然后重新编译。
+3. 回到编译时的目录，输入指令 <code style="font-size: 14px;">make veryclean</code> 清除之前的编译，然后重新编译。
 
 **注：**
 
