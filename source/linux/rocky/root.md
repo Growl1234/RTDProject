@@ -73,7 +73,7 @@
 另注：Rocky Linux 9.x中的nautilus完全不存在这一问题。在Fedora 43使用的GNOME 49中，root用户下直接打不开nautilus窗口了，这个警告也变成了 <code style="font-size: 14px;">Running nautilus as root is not supported.</code>，原因和解决办法与上面所说相同。
 </p>
 
-**OpenMPI**
+**(2) OpenMPI**
 
 <p style="margin-left: 20px; margin-right: 20px;">
 OpenMPI在root下运行mpirun时候，要求指令中额外加上 <code style="font-size: 14px;">--allow-run-as-root</code> 选项，然而对于一些将mpirun指令内置的程序（比如ORCA），想实现这种做法却没那么容易和直接（直接写指令或alias识别不进去，可能需要用到函数功能）。想要避免这种情况，同时让自己不再需要加 <code style="font-size: 14px;">--allow-run-as-root</code>，可以通过<strong>写入环境变量</strong>来解决，即往~/.bashrc文件中加入以下两行：
@@ -92,7 +92,7 @@ export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 修改源代码的方法也可以实现上述目的，操作见<a href="http://sobereva.com/409">http://sobereva.com/409</a>，不过相比上面写入环境变量的做法麻烦多了（该博文也包含写入环境变量的做法）。
 </p>
 
-**VLC**
+**(3) VLC**
 
 <p style="margin-left: 20px; margin-right: 20px;">
 VLC是Linux下功能最强大的视频播放器之一，该程序默认在root用户中无法启动。解决方法很简单：运行指令 <code style="font-size: 14px;">sed -i 's/geteuid/getppid/' /usr/bin/vlc</code>（显然也是将getuid相应步骤去掉）。
