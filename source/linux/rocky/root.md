@@ -45,7 +45,7 @@
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px;">
-<strong>③</strong> 执行 <code style="font-size: 17px;">export LD_LIBRARY_PATH= &&export LD_RUN_PATH=</code> 以在当前终端临时清空这两个环境变量（否则这些里面包含的路径对构建过程造成干扰导致构建失败）；然后切到~/rpmbuild/SPECS目录下，运行 <code>rpmbuild -bb nautilus.spec</code> 重新构建二进制安装包。
+<strong>③</strong> 执行 <code style="font-size: 15px;">export LD_LIBRARY_PATH= &&export LD_RUN_PATH=</code> 以在当前终端临时清空这两个环境变量（否则这些里面包含的路径对构建过程造成干扰导致构建失败）；然后切到~/rpmbuild/SPECS目录下，运行 <code>rpmbuild -bb nautilus.spec</code> 重新构建二进制安装包。
 </p>
 
 <p style="margin-left: 40px; margin-right: 40px;">
