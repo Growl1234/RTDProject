@@ -29,10 +29,9 @@ If you have any questions, feel free to simply drop a message on the `GitHub dis
 
 .. toctree::
    :maxdepth: 5
-   :caption: 目录
+   :caption: 目录/CONTENTS
    :hidden:
 
-   首页（含警告信息） <index>
    linear_algebra/index
    quantum/index
    applications/index
