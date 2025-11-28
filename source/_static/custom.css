@@ -3,13 +3,9 @@
   width: 100% !important; 
 }
 
-.wy-side-nav-search {
-    padding-top: 0
-    margin-top: 0
-}
-
+.wy-side-nav-search > a,
 .wy-side-nav-search .wy-dropdown > a {
     font-size: 20px
     font-weight: bold
-    line-height: 1.5
+    line-height: 0
 }
