@@ -13,7 +13,7 @@ If you have any questions, feel free to simply drop a message on the `GitHub dis
 
 ----
 
-**WARNING: You are not allowed to distribute any files and documents inside (except for specially marked ones) or repost the content in any form (but sharing article links is highly welcome)!**
+**WARNING: You are not allowed to distribute any files and documents inside (except for specially marked ones) or repost the content in any form (but sharing article links is highly welcome) !**
 
 **警告：不得擅自传播里面的任何文件（特殊标注者除外），也不得以任何形式转载文章内容（但非常欢迎转发文章链接）！**
 
