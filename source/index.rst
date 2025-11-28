@@ -32,6 +32,7 @@ If you have any questions, feel free to simply drop a message on the `GitHub dis
    :caption: 内容目录
    :hidden:
 
+   首页（含警告信息） <index>
    linear_algebra/index
    quantum/index
    applications/index
