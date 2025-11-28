@@ -8,7 +8,6 @@
     <style>
     .red-bold-text {
         color:red;
-        font-weight:bold;
     }
     </style>
 
