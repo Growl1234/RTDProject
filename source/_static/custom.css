@@ -15,7 +15,6 @@
     margin: 0 !important;
     padding: 0 !important;
 }
-.wy-side-nav-search {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+.wy-side-nav-search input[type="text"] {
+    margin-top: 0 !important;
 }
