@@ -5,13 +5,10 @@
     :class: red
 
 .. raw:: html
-
     <style>
-
     .red {
         color:red;
     }
-
     </style>
 
 这里收录了一些关于如何应用计算化学和使用计算化学程序的资料，其中包含大量外部链接。
