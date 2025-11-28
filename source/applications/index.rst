@@ -5,10 +5,14 @@
     :class: red-bold-text
 
 .. raw:: html
+
     <style>
+
     .red-bold-text {
         color:red;
+        font-weight:bold;
     }
+
     </style>
 
 这里收录了一些关于如何应用计算化学和使用计算化学程序的资料，其中包含大量外部链接。 :red-bold:`最底下的“推荐博客及论坛”一定不要忘记收藏！`
