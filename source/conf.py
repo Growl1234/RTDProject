@@ -37,8 +37,6 @@ html_theme_options = {
     "prev_next_buttons_location": None,
     "display_version": False,
 }
-html_sidebars = {
-    '**': ['globaltoc.html', 'relations.html', 'searchbox.html'],
-}
+
 html_show_copyright = False
 
