@@ -35,6 +35,8 @@ html_theme_options = {
     'navigation_depth': 5,
     'titles_only': False,
     "prev_next_buttons_location": None,
+    "logo_only": True,
+    "display_version": False,
 }
 html_sidebars = {
     '**': ['globaltoc.html', 'relations.html', 'searchbox.html'],
