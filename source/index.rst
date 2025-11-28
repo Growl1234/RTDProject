@@ -29,7 +29,7 @@ If you have any questions, feel free to simply drop a message on the `GitHub dis
 
 .. toctree::
    :maxdepth: 5
-   :caption: 内容目录
+   :caption: 目录
    :hidden:
 
    首页（含警告信息） <index>
