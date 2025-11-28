@@ -134,4 +134,4 @@ ___
 
 ___
 
-基于RHEL重构的Linux系统，与Rocky Linux并列。除跟随RHEL重构的内核版本外，还加了一个UEK内核（Unbreakable Enterprise Kernel，版本比RHEL所用要新，但旧于CentOS Stream）用以支持Oracle自己的一些特性功能，号称“专注于性能、稳定性和最小化回溯”；不过在我看来实际意义不是很大，更像是一个辅助性角色。
+基于RHEL重构的Linux系统，与Rocky Linux并列。除跟随RHEL重构的内核版本外，还加了一个UEK内核（Unbreakable Enterprise Kernel，版本比RHEL所用要新，但旧于CentOS Stream）作为辅助用以支持Oracle自己的一些特性功能，号称“专注于性能、稳定性和最小化回溯”；不过在我看来实际意义并不大。
