@@ -35,7 +35,7 @@
 
 按照以下提示安装，下面没提到的不用管：
 
-（1）“Software Selection”页面，一定要选择Workstation（工作站，附带GNOME图形界面），既功能适合还方便使用；右侧建议勾选Legacy UNIX Compatibility、Developement Tools、System Tools、Graphical Administration Tools几个选项（若版本为9.6，还会有一个“GNOME Applications”选项，建议勾选上）。
+（1）“Software Selection”页面，一定要选择Workstation（工作站，附带GNOME图形界面），既功能适合还方便使用；右侧建议勾选Legacy UNIX Compatibility、Developement Tools、System Tools、Graphical Administration Tools几个选项（若版本为9.x，还会有一个“GNOME Applications”选项，建议勾选上）。
 
 （2）“Installation Destination”页面，注意选对自己想安装到哪个硬盘上，并合理分区。如果你是双系统，强烈建议将系统装到一个单另的空白硬盘上，这样最省心，风险也最低。选择Custom选项进行手动分区，点击Done后进入分区设置界面，按如下所说设置：所有分区类型均为Standard partition，“/boot/efi”启动分区大小256MiB（也可以略大一点比如512MiB），swap分区大小8到16GiB（因机而异，这个只是针对大部分个人计算机的建议区间），剩余全部划给“/”（该分区默认文件系统为xfs；如果你是双系统，推荐改为ext4文件系统以期更方便地从Windows利用简便工具读取文件）。
 
@@ -54,5 +54,5 @@
 2. 强烈建议安装并换源完毕后首先运行 <code style="font-size: 14px;">sudo dnf update -y</code> 将系统关键组件（尤其是Linux内核即kernel）更新到最新版本。
 3. 建议运行指令 <code style="font-size: 14px;">sudo dnf install epel-release -y</code> 安装EPEL，这个是Fedora专门为红帽系列的中下游分发制作的软件仓库，包含了很多重要但官方仓库没有收录的程序包，对于很多额外的功能和体验都是必需的；以及 <code style="font-size: 14px;">sudo dnf config-manager --set-enabled crb</code> 启用系统的Codeready Builder仓库，这个仓库包含一些额外的程序编译和构建所需工具。将EPEL更换为国内镜像源的教程见[https://mirrors.ustc.edu.cn/help/epel.html](https://mirrors.ustc.edu.cn/help/epel.html)。对于10.x版本，EPEL的repo文件的指向链接通常带有“{$releasever+z}”字样，这个字样可以自行去掉，你可以根据自己的需求考虑是否这样做。
 4. 建议添加国内flathub源方便从GNOME Software下载一些可能需要的桌面程序。教程见[https://mirrors.ustc.edu.cn/help/flathub.html](https://mirrors.ustc.edu.cn/help/flathub.html)。
-5. 推荐使用GNOME Tweaks（优化工具）和GNOME Shell Extensions（扩展工具集）来对自己系统的GNOME图形界面进行一些自定义，弥补原生GNOME桌面的一些不方便之处；在扩展工具中又建议安装Dash to Dock、GTK4 Desktop Icons NG (DING；如果是9.6版本选不带GTK4的)、AppIndicator and KStatusNotifierItem Support三个扩展。如果再在系统中安装ntfs-3g，还可以直接读取Windows系统下的硬盘和文件。上面的GNOME Tweaks和ntfs-3g均需通过EPEL安装；对于GNOME Shell Extensions，建议通过加了Flatpak仓库的GNOME Software安装Extension Manager来方便地管理。
+5. 推荐使用GNOME Tweaks（优化工具）和GNOME Shell Extensions（扩展工具集）来对自己系统的GNOME图形界面进行一些自定义，弥补原生GNOME桌面的一些不方便之处；在扩展工具中又建议安装Dash to Dock、GTK4 Desktop Icons NG (DING；如果是9.x版本选不带GTK4的)、AppIndicator and KStatusNotifierItem Support三个扩展。如果再在系统中安装ntfs-3g，还可以直接读取Windows系统下的硬盘和文件。上面的GNOME Tweaks和ntfs-3g均需通过EPEL安装；对于GNOME Shell Extensions，建议通过加了Flatpak仓库的GNOME Software安装Extension Manager来方便地管理。
 
