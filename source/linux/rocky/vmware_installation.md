@@ -35,7 +35,7 @@ VMware Workstation Pro对个人用户是免费的，因此直接在Broadcom Supp
 
 ### 5. 设置Rocky Linux安装选项
 
-与[《Rocky Linux的安装以及一些初步的使用建议》](/linux/rocky/installation/)里面相应部分的说明可能的不同点在于，磁盘分区一步，如果分配给虚拟机的可用空间少，可以不设置swap分区以留出更多空间给主分区“/”用。
+与[《Rocky Linux的安装以及一些初步的使用建议》](/linux/rocky/installation/)里面相应部分的说明可能的不同点在于，磁盘分区一步，如果分配给虚拟机的可用空间少，可以不设置swap分区以留出更多空间给主分区“/”用。此外，由于虚拟机的网络相当于是直接使用主机的网，因此“Network & Hostname”一项无需进行任何设置。
 
 ### 6. 一切就绪
 
