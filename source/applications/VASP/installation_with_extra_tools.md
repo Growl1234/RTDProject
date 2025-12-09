@@ -22,7 +22,7 @@ VASP的DFT-D4功能通过向外链接程序包实现。如果想用DFT-D4，需�
 
 ### 配置vaspkit
 
-Vaspkit是一个很方便的用作VASP预-后处理的独立程序包，由国内师生开发，对初学者强烈推荐（尤其在另一优秀的同类程序包p4vasp早已停止开发且无法在现行版本中配置和使用的背景下）。
+Vaspkit是一个很方便的用作VASP预-后处理的独立程序包，由国内师生开发，对初学者强烈推荐（尤其在另一优秀的同类程序包p4vasp早已停止开发且无法在现行Linux分发中配置和使用的背景下；p4vasp的Windows版二进制可执行文件姑且在这里提供给大家，[点此](../../_static/packages/p4vasp.exe)即可下载）。
 
 如果需要配置vaspkit，只需从[SourceForge](https://sourceforge.net/projects/vaspkit/)上下载源码并按“how_to_install”文件的说明或[官网说明](https://vaspkit.com/installation.html#id1)安装即可，非常简单。
 
