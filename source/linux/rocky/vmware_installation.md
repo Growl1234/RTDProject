@@ -25,7 +25,7 @@ VMware Workstation Pro对个人用户是免费的，因此直接在Broadcom Supp
   <img src="../../_static/images/vm6.png" width="30%" />
 </p>
 
-***2025-12-10更新：最近测试发现，上面截图第三页中选择Rocky Linux 64-bit已经可以正常启动ISO，这也意味着第二页中你可以直接选择第二个选项导向ISO镜像；然而这仍然有一个不同之处：VMware中RHEL选项的启动引导默认为UEFI（Rocky Linux 9.x和10.x实际上也都以UEFI为主），而Rocky选项的启动引导不支持UEFI，只能用Legacy BIOS，这一点上个人认为在一些方面还是存在潜在风险的。为保险起见，我依然建议按照图片中的标注操作。部分读者在打开虚拟机准备安装时出现了“The CPU has been disabled by the guest operating system”错误，这与自己电脑的硬件配置和系统设置有关，我自己从未遇到此问题，因此给不出解决方案；不要将这一报错错误地归因为“上面的安装步骤不对”，笔者在写这个页面时反反复复做了n多次测试，十分确信上面的操作完全没有任何问题。***
+***2025-12-10更新：最近测试发现，上面截图第三页中选择Rocky Linux 64-bit已经可以正常启动ISO，这也意味着第二页中你可以直接选择第二个选项导向ISO镜像；只是有一个不同之处在于，VMware中RHEL选项的启动引导默认为UEFI，而Rocky选项的启动引导不支持UEFI，只能用Legacy BIOS，不过鉴于Rocky Linux两种引导都支持，故按理来讲不会造成什么实质性问题。此外，部分读者在打开虚拟机准备安装时出现了“The CPU has been disabled by the guest operating system”错误，这与自己电脑的硬件配置和系统设置有关，我自己从未遇到此问题，因此给不出解决方案；不要将这一报错错误地归因为“上面的安装步骤不对”，笔者在写这个页面时反反复复做了n多次测试，十分确信上面的操作完全没有任何问题。***
 
 （3）按下图所示，打开虚拟机设置，手动把CD/DVD驱动器链接到ISO文件。
 
