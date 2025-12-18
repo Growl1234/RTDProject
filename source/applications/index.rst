@@ -81,7 +81,7 @@
 
 `🔗 计算化学公社 <http://bbs.keinsci.com/forum.php>`_
 
-附：`📦 思想家公社中计算新手必看博文（涉及计算化学中最基础、最入门的内容） <../_static/pdf/Sobereva.zip>`_
+附：`📦 思想家公社中计算新手必看博文合集（涉及计算化学中最基础、最入门的内容） <../_static/pdf/Sobereva.7z>`_
 
 此外，卢天老师也针对不同层次和领域的计算化学学习者和研究者开设了性价比超高的计算化学培训班（见
 `🔗北京科音举办的培训简介 <http://www.keinsci.com/workshop.html>`_

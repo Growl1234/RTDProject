@@ -65,7 +65,7 @@
 </p>
 
 <p style="margin-left: 20px; margin-right: 20px; font-size: 17px;">
-<strong><a href="../../_static/packages/nautilus.zip">📦nautilus.zip</a></strong>
+<strong><a href="../../_static/packages/nautilus.7z">📦nautilus.7z</a></strong>
 （由于nautilus为自由软件，该重构包大家可以随意传播）
 </p>
 
