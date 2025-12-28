@@ -1,6 +1,6 @@
 ## 从源代码配置CP2K
 
-***Last Updated: 2025-10-30***
+***Last Updated: 2025-12-28***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
@@ -16,3 +16,4 @@
 
 * 如果你使用自行事先编译的HDF5并加了 <code style="font-size: 14px;">\--with-hdf5=system</code> 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 <code style="font-size: 14px;">sudo dnf install libaec-devel</code> 命令装上libsz，否则会出现“找不到-lsz”的错误提示。
 
+* **从版本2026.1开始，CP2K的编译将全面转为cmake，彻底放弃GNU Makefile和相应的arch文件集。** 我自己根据目前 *（2025-12-28）* 的CP2K开发版安装包尝试从cmake编译，发现两个问题，一是设置<code style="font-size: 14px;">\--with-hdf5=system</code> 时系统寻找HDF5路径仍有漏洞,不过这个漏洞只是一个小指令的问题，关于这个问题我已经提交了修复该漏洞的pull request [https://github.com/cp2k/cp2k/pull/4638](https://github.com/cp2k/cp2k/pull/4638)，希望能被采纳，想尝试的人也可以按里面的操作自己改源代码相应部分；另一个问题是toolchain配置完成后提示的命令 <code style="font-size: 14px;">cmake -S . -B build -DCP2K_USE_EVERYTHING=ON</code> 中<code style="font-size: 14px;">-DCP2K_USE_EVERYTHING=ON</code> 指令会寻找toolchain没有构建甚至不包含的库，找不到就报错；目前唯一的办法就是自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中。另外，这一编译选项目前无法同时编译ssmp和psmp（检测出MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的软链接sopt和popt；不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要恰当设置OMP_NUM_THREADS环境变量且不用mpirun指令就相当于运行ssmp，只要<code style="font-size: 14px;">export OMP_NUM_THREADS=1</code> 并用mpirun -np N（N为并行核数）运行时就相当于运行popt了。
