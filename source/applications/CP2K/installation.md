@@ -19,35 +19,27 @@
 * **从版本2026.1开始，CP2K的编译将全面转为cmake，彻底放弃GNU Makefile和相应的arch文件集。** 我自己根据目前 *（2025-12-28 21:30）* 的CP2K开发版安装包尝试从cmake编译，有一个小问题，即toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦。另外，凭说明信息建议的这一编译选项目前无法同时编译ssmp和psmp（检测出MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的软链接sopt和popt；不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要恰当设置OMP_NUM_THREADS环境变量且不用mpirun指令就相当于运行ssmp，只要<code style="font-size: 14px;">export OMP_NUM_THREADS=1</code> 并用<code style="font-size: 14px;">mpirun -np N</code> （N为并行核数）运行就相当于运行popt了。
 
 ***补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（适用于2025.2和即将发行的2026.1版本）：***
-
 1. 完成前述toolchain配置后，按照控制台输出所说明的执行<code style="font-size: 14px;">source /root/CP2K/src/cp2k-2025.2/tools/toolchain/install/setup</code>。
 
 2. 切到cp2k源码目录，执行<code style="font-size: 14px;">mkdir build && cd build</code>，进入构建和编译专用目录。
 
 3. 运行构建指令。由于前面说过的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
-
 ```bash
 ./install_cp2k_toolchain.sh --with-sirius=no --with-openblas=system --with-fftw=system --with-scalapack=system --with-hdf5=system --with-ninja=system --with-cmake=system --with-tblite
 ```
-
 这里包括了自己在系统单另已经安装好的cmake、ninja、MPI、OpenBLAS、ScaLAPACK、FFTW3和HDF5，toolchain默认安装的libint、libXC、libXSMM、Spglib、COSMA、ELPA、libvori，以及我选定安装的tblite。那么我的cmake预配置选项即如下所示，可见相当麻烦：
-
 ```bash
 cmake -S .. -DCMAKE_INSTALL_PREFIX=/root/CP2K/cp2k-2025.2/ -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON -DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON
 ```
-
 由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。
-
 <code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 建议自行设置上，否则安装目录可能默认被设置到比如toolchain里面dbcsr这种奇怪的目录下。
 
 4. 构建完成后，运行<code style="font-size: 14px;">make -jN all</code>，N是并行核数，下同。
 
 5. 执行安装步骤：<code style="font-size: 14px;">make install -jN</code>。
-
 **此处提个醒：** CP2K默认读取基组信息的data文件夹在cmake时会被认为是在相应目录下的shared/cp2k/data而非原来源代码目录下的data文件夹；即使仅就这个问题我们可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>，但这也导致一些文件由于未安装至指定目录而残留在了build/src文件夹中，因此无法通过删除build/src文件夹来腾空间。综合上述原因，我认为这里的安装步骤最好不要忽略。
 
 6. 写入以下三行至~/.bashrc中以添加环境变量：
-
 ```bash
 export PATH=$PATH:/root/CP2K/cp2k-2025.2/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/CP2K/cp2k-2025.2/lib64
