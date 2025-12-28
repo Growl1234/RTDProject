@@ -20,9 +20,11 @@
 
 ***补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（适用于即将发行的2026.1版本）：***
 
-1. 完成前述toolchain配置后，切到cp2k源码目录，执行<code style="font-size: 14px;">mkdir build && cd build</code>。
+1. 完成前述toolchain配置后，按照控制台输出所说明的执行<code style="font-size: 14px;">source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup</code>。
 
-2. 运行构建指令。由于前面说了的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
+2. 切到cp2k源码目录，执行<code style="font-size: 14px;">mkdir build && cd build</code>，进入构建和编译专用目录。
+
+3. 运行构建指令。由于前面说过的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
 
 ```bash
 ./install_cp2k_toolchain.sh --with-sirius=no --with-openblas=system --with-fftw=system --with-scalapack=system --with-hdf5=system --with-ninja=system --with-cmake=system --with-tblite
@@ -31,18 +33,20 @@
 这里包括了自己在系统单另已经安装好的cmake、ninja、MPI、OpenBLAS、ScaLAPACK、FFTW3和HDF5，toolchain默认安装的libint、libXC、libXSMM、Spglib、COSMA、ELPA、libvori，以及我选定安装的tblite。那么我的cmake预配置选项即如下所示，可见相当麻烦：
 
 ```bash
-cmake -S .. -DCMAKE_INSTALL_PREFIX=/root/CP2K/cp2k-2026.1/ -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON-DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON
+cmake -S .. -DCMAKE_INSTALL_PREFIX=/root/CP2K/cp2k-2026.1/ -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON -DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON
 ```
 
 由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。
 
-<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 之所以自己设置了一个，是因为不自己设置的话，后面执行安装的目标目录可能默认导到toolchain里面dbcsr这种奇怪的目录下；而且CP2K默认读取基组信息的data文件夹也会被认为是在相应目录下的shared/cp2k/data，而不是原来源代码目录下的data文件夹（不过单这个问题可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>）。
+<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 建议自行设置上，否则安装目录可能默认被设置到比如toolchain里面dbcsr这种奇怪的目录下。
 
-3. 构建完成后，运行<code style="font-size: 14px;">make -jN all</code>，N是并行核数，下同。
+4. 构建完成后，运行<code style="font-size: 14px;">make -jN all</code>，N是并行核数，下同。
 
-4. 执行安装步骤：<code style="font-size: 14px;">make install -jN</code>。
+5. 执行安装步骤：<code style="font-size: 14px;">make install -jN</code>。
 
-5. 写入以下三行至~/.bashrc中以添加环境变量：
+**此处提个醒：** CP2K默认读取基组信息的data文件夹在cmake时会被认为是在相应目录下的shared/cp2k/data而非原来源代码目录下的data文件夹；即使仅就这个问题我们可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>，但这也导致一些文件由于未安装至指定目录而残留在了build/src文件夹中，因此无法通过删除build/src文件夹来腾空间。综合上述原因，我认为这里的安装步骤最好不要忽略。
+
+6. 写入以下三行至~/.bashrc中以添加环境变量：
 
 ```bash
 export PATH=$PATH:/root/CP2K/cp2k-2026.1/bin
@@ -50,4 +54,4 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/CP2K/cp2k-2026.1/lib64
 source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup
 ```
 
-6. 删除build文件夹以腾出一部分空间。注意不要随意删除源码包目录下别的东西，尤其tools/toolchain目录下的。
+7. 删除build文件夹以腾出一部分空间。注意不要随意删除源码包目录下别的东西，尤其tools/toolchain目录下的。
