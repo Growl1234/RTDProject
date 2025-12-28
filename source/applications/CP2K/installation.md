@@ -18,7 +18,7 @@
 
 * **从版本2026.1开始，CP2K的编译将全面转为cmake，彻底放弃GNU Makefile和相应的arch文件集。** 我自己根据目前 *（2025-12-28 21:30）* 的CP2K开发版安装包尝试从cmake编译，有一个小问题，即toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦。另外，凭说明信息建议的这一编译选项目前无法同时编译ssmp和psmp（检测出MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的软链接sopt和popt；不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要恰当设置OMP_NUM_THREADS环境变量且不用mpirun指令就相当于运行ssmp，只要<code style="font-size: 14px;">export OMP_NUM_THREADS=1</code> 并用<code style="font-size: 14px;">mpirun -np N</code> （N为并行核数）运行就相当于运行popt了。
 
-***补充：最推荐的从cmake正确编译CP2K可执行文件的步骤：***
+***补充：个人最推荐的从cmake正确编译CP2K可执行文件的步骤：***
 
 1. 完成前述toolchain配置。
 
@@ -28,12 +28,18 @@
 
 那么我的cmake预配置选项就是：
 
-<code style="font-size: 14px;">cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/root/CP2K/src/cp2k-dev/exe/ -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON-DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON</code> 
-
-可见命令相当麻烦。这里<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 之所以自己设置了一个，是因为不自己设置的话，后面执行安装的目标目录容易默认导到toolchain里面dbcsr的目录下；而且CP2K默认读取基组信息的data文件夹也会被认为是在相应目录下的share/cp2k/data，而不是原来源代码目录下的data文件夹（不过这个可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>）。另外，OpenBLAS是强制性的，Scalapack在有MPI的情况下是强制性的，因此无论如何都会检查，所以这里无需写出。
+<code style="font-size: 14px;">cmake -S . -B build -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON-DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON</code> 
 
 3. 构建完成后，运行<code style="font-size: 14px;">cmake --build build -j N</code>，N是并行核数。
 
-4. 执行安装步骤：<code style="font-size: 14px;">cmake --install build</code>；这里无法并行运行，因此也没有加“-j N”。
+4. 写入以下三行至~/.bashrc中以添加环境变量：
 
-5. 删除build文件夹以腾出一部分空间。注意不要随意删除源码包目录下别的东西。
+<code style="font-size: 14px;">export PATH=$PATH:/root/CP2K/src/cp2k-dev/build/bin</code>
+
+<code style="font-size: 14px;">export CP2K_DATA_DIR=/root/CP2K/src/cp2k-dev/data</code>
+
+<code style="font-size: 14px;">source /root/CP2K/src/cp2k-dev/tools/toolchain/install/setup</code>
+
+之所以还要加一行重新设置CP2K_DATA_DIR，是因为cmake步骤中给程序指定的CP2K_DATA_DIR不是源码包下的data文件夹。
+
+5. 删除build/src文件夹以腾出一部分空间。
