@@ -30,7 +30,7 @@
 
 <code style="font-size: 14px;">cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/root/CP2K/src/cp2k-dev/exe/ -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON-DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON</code> 
 
-可见命令相当麻烦。这里<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 之所以自己设置了一个，是因为不自己设置的话，后面执行安装的目标目录容易默认导到toolchain里面dbcsr的目录下；而且CP2K默认读取基组信息的data文件夹也会被认为是在相应目录下的share/cp2k/data，而不是原来源代码目录下的data文件夹（不过这个可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>）。
+可见命令相当麻烦。这里<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 之所以自己设置了一个，是因为不自己设置的话，后面执行安装的目标目录容易默认导到toolchain里面dbcsr的目录下；而且CP2K默认读取基组信息的data文件夹也会被认为是在相应目录下的share/cp2k/data，而不是原来源代码目录下的data文件夹（不过这个可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>）。另外，OpenBLAS是强制性的，Scalapack在有MPI的情况下是强制性的，因此无论如何都会检查，所以这里无需写出。
 
 3. 构建完成后，运行<code style="font-size: 14px;">cmake --build build -j N</code>，N是并行核数。
 
