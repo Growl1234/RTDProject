@@ -32,8 +32,8 @@
 
 可见命令相当麻烦。这里<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 之所以自己设置了一个，是因为不自己设置的话，后面执行安装的目标目录容易默认导到toolchain里面dbcsr的目录下；而且CP2K默认读取基组信息的data文件夹也会被认为是在相应目录下的share/cp2k/data，而不是原来源代码目录下的data文件夹（不过这个可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>）。
 
-3. 构建完成后，运行<code style="font-size: 14px;">cmake --build . -j N</code>，N是并行核数。
+3. 构建完成后，运行<code style="font-size: 14px;">cmake --build build -j N</code>，N是并行核数。
 
-4. 执行安装步骤：<code style="font-size: 14px;">cmake --install .</code>。
+4. 执行安装步骤：<code style="font-size: 14px;">cmake --install build</code>；这里无法并行运行，因此也没有加“-j N”。
 
 5. 删除build文件夹以腾出一部分空间。注意不要随意删除源码包目录下别的东西。
