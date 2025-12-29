@@ -1,6 +1,6 @@
 ## 从源代码配置CP2K
 
-***Last Updated: 2025-12-28***
+***Last Updated: 2025-12-30***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
