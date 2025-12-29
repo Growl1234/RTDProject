@@ -37,15 +37,9 @@
 cmake -S .. -DCMAKE_INSTALL_PREFIX=/root/CP2K/cp2k-2025.2/ -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON -DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON
 ```
 
-由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。
+其中<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 设置到自己想安装到的路径。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。</li>
 
-<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 建议自行设置上，否则安装目录可能默认被设置到比如toolchain里面dbcsr这种奇怪的目录下。</li>
-
-<li> 构建完成后，运行<code style="font-size: 14px;">make -jN all</code>，N是并行核数，下同。</li>
-
-<li> 执行安装步骤：<code style="font-size: 14px;">make install -jN</code>。
-
-**此处提个醒：** CP2K默认读取基组信息的data文件夹在cmake时会被认为是在相应目录下的shared/cp2k/data而非原来源代码目录下的data文件夹；即使仅就这个问题我们可以通过设置环境变量来解决，即<code style="font-size: 14px;">export CP2K_DATA_DIR={path}</code>，但这也导致一些文件由于未安装至指定目录而残留在了build/src文件夹中，因此无法通过删除build/src文件夹来腾空间。综合上述原因，我认为这里的安装步骤最好不要忽略。</li>
+<li> 构建完成后，运行<code style="font-size: 14px;">make install -jN</code>，N是并行核数。</li>
 
 <li> 写入以下三行至~/.bashrc中以添加环境变量：
 
