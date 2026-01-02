@@ -1,6 +1,6 @@
 ## 从源代码配置CP2K
 
-***Last Updated: 2025-12-30***
+***Last Updated: 2025-01-02***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
@@ -12,13 +12,13 @@
 
 * 根据个人测试经验，OpenMPI并行结合oneMKL数学库选项配置的CP2K在运行时会出现内存配置错误，而MPICH不会，原因不明。鉴于这一情况，如果坚持使用Intel oneMKL作为数学库，那我建议你用MPICH作为并行化工具来配置和运行CP2K；而在使用开源的OpenBLAS、ScaLAPACK和FFTW组合当数学库时，则放心用社区流行度更高的OpenMPI。
 
-* <code style="font-size: 14px;">\--with-tblite</code> 代表安装Grimme的tblite程序，要加这个必须同时加上 <code style="font-size: 14px;">\--with-ninja</code>。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 <code style="font-size: 14px;">\--with-dftd4</code> 了（即使加上了也会被自动跳过；但是 <code style="font-size: 14px;">\--with-ninja</code> 还得有）。注意从CP2K的toolchain下载的tblite可能不完整，缺胳膊少腿的，碰上这种情况应当自行去tblite官网下载tar.xz源码包并重新包装成tar.gz来替代原来的包。
+* <code style="font-size: 14px;">\--with-tblite</code> 代表安装Grimme的tblite程序，要加这个必须同时加上 <code style="font-size: 14px;">\--with-ninja</code>。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 <code style="font-size: 14px;">\--with-dftd4</code> 了（即使加上了也会被自动跳过；但是 <code style="font-size: 14px;">\--with-ninja</code> 还得有）。注意从CP2K的toolchain下载的tblite可能不完整，缺胳膊少腿的，碰上这种情况应当自行去tblite官网下载tar.xz源码包并重新包装成tar.gz来替代原来的包（我已经提交了pull request来解决该问题）。
 
 * 如果你使用自行事先编译的HDF5并加了 <code style="font-size: 14px;">\--with-hdf5=system</code> 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 <code style="font-size: 14px;">sudo dnf install libaec-devel</code> 命令装上libsz，否则会出现“找不到-lsz”的错误提示。
 
-* **从版本2026.1开始，CP2K的编译将全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 我自己根据目前 *（2025-12-28 21:30）* 的CP2K开发版安装包尝试从cmake编译，发现cmake下编译比GNU makefile效率更高、报错概率更低。不过目前toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，凭说明信息建议的这一编译选项目前无法同时编译ssmp和psmp（检测出MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的软链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要恰当设置OMP_NUM_THREADS环境变量且不用mpirun指令就相当于运行ssmp，只要<code style="font-size: 14px;">export OMP_NUM_THREADS=1</code> 并用<code style="font-size: 14px;">mpirun -np N</code> （N为并行核数）运行就相当于运行popt了。
+* **从版本2026.1开始，CP2K的编译将全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 我自己根据目前 *（2026-01-02 16:30）* 的CP2K开发版安装包尝试从cmake编译，发现cmake下编译比GNU makefile效率更高、报错概率更低。不过目前toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，目前无法通过cmake同时编译ssmp和psmp（检测出MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要<code style="font-size: 14px;">export OMP_NUM_THREADS=1</code> 并用<code style="font-size: 14px;">mpirun -np N</code> （N为并行核数）运行就相当于运行popt了。
 
-***补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（适用于2025.2和即将发行的2026.1版本，以下以2025.2为例）：***
+***补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（至少适用于2025.2和即将发行的2026.1版本，以下以2025.2为例；假设使用root用户）：***
 
 <ol>
 <li> 完成前述toolchain配置后，按照控制台输出所说明的执行<code style="font-size: 14px;">source /root/CP2K/src/cp2k-2025.2/tools/toolchain/install/setup</code>。</li>
@@ -34,21 +34,21 @@
 这里包括了自己在系统单另已经安装好的cmake、ninja、MPI、OpenBLAS、ScaLAPACK、FFTW3和HDF5，toolchain默认安装的libint、libXC、libXSMM、Spglib、COSMA、ELPA、libvori，以及我选定安装的tblite。那么我的cmake预配置选项即如下所示，可见相当麻烦：
 
 ```bash
-cmake -S .. -DCMAKE_INSTALL_PREFIX=/root/CP2K/cp2k-2025.2/ -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON -DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON
+cmake -S .. -DCMAKE_INSTALL_PREFIX=.. -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON -DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON
 ```
 
-其中<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 设置到自己想安装到的路径。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。</li>
+其中<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 设置到自己想安装到的路径（我直接设置在了父目录，即与源代码在一起；如果不设置，默认将为/usr/local）。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。</li>
 
 <li> 构建完成后，运行<code style="font-size: 14px;">make install -jN</code>，N是并行核数。</li>
 
 <li> 写入以下三行至~/.bashrc中以添加环境变量：
 
 ```bash
-export PATH=$PATH:/root/CP2K/cp2k-2025.2/bin
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/CP2K/cp2k-2025.2/lib64
+export PATH=$PATH:/root/CP2K/src/cp2k-2025.2/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/CP2K/src/cp2k-2025.2/lib64
 source /root/CP2K/src/cp2k-2025.2/tools/toolchain/install/setup
 ```
 </li>
 
-<li> 删除build文件夹以腾出一部分空间。注意不要随意删除源码包目录下别的东西，尤其tools/toolchain目录下的。</li>
+<li> 删除该build文件夹以腾出部分空间。</li>
 </ol>
