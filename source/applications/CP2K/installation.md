@@ -37,7 +37,9 @@
 cmake -S .. -DCMAKE_INSTALL_PREFIX=.. -DCP2K_USE_TBLITE=ON -DCP2K_USE_FFTW3=ON -DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_MPI=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_VORI=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_HDF5=ON
 ```
 
-其中<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 设置到自己想安装到的路径（我直接设置在了父目录，即与源代码在一起；如果不设置，默认将为/usr/local）。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。</li>
+其中<code style="font-size: 14px;">-DCMAKE_INSTALL_PREFIX</code> 设置到自己想安装到的路径（可以使用相对路径；为省事我直接设置在了父目录，即与源代码在一起；如果不设置，默认将为/usr/local）。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。
+
+**P.S.** cmake构建系统安装好后默认读取基组的位置是<code style="font-size: 14px;">${CMAKE_INSTALL_PREFIX}/shared/cp2k/data</code>，这也就导致编译时会生成与/root/CP2K/src/cp2k-dev/data内容完全重复的/root/CP2K/src/cp2k-dev/shared/cp2k/data目录；如果在意这个而想避免因此生成重复文件，在cmake指令里面加一个<code style="font-size: 14px;">-DCP2K_DATA_DIR=/root/CP2K/src/cp2k-dev/data</code>即可（这里不要用相对路径）。</li>
 
 <li> 构建完成后，运行<code style="font-size: 14px;">make install -jN</code>，N是并行核数。</li>
 
