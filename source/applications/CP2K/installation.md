@@ -12,7 +12,7 @@
 
 * 根据个人测试经验，OpenMPI并行结合oneMKL数学库选项配置的CP2K在运行时会出现内存配置错误，而MPICH不会，原因不明。鉴于这一情况，如果坚持使用Intel oneMKL作为数学库，那我建议你用MPICH作为并行化工具来配置和运行CP2K；而在使用开源的OpenBLAS、ScaLAPACK和FFTW组合当数学库时，则放心用社区流行度更高的OpenMPI。
 
-* <code style="font-size: 14px;">\--with-tblite</code> 代表安装Grimme的tblite程序，要加这个必须同时加上 <code style="font-size: 14px;">\--with-ninja</code>。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 <code style="font-size: 14px;">\--with-dftd4</code> 了（即使加上了也会被自动跳过；但是 <code style="font-size: 14px;">\--with-ninja</code> 还得有）。注意从CP2K的toolchain下载的tblite可能不完整，缺胳膊少腿的，碰上这种情况应当自行去tblite官网下载tar.xz源码包并重新包装成tar.gz来替代原来的包（我已经提交了pull request来解决该问题）。
+* <code style="font-size: 14px;">\--with-tblite</code> 代表安装Grimme的tblite程序，要加这个必须同时加上 <code style="font-size: 14px;">\--with-ninja</code>。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 <code style="font-size: 14px;">\--with-dftd4</code> 了（即使加上了也会被自动跳过；但是 <code style="font-size: 14px;">\--with-ninja</code> 还得有）。
 
 * 如果你使用自行事先编译的HDF5并加了 <code style="font-size: 14px;">\--with-hdf5=system</code> 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 <code style="font-size: 14px;">sudo dnf install libaec-devel</code> 命令装上libsz，否则会出现“找不到-lsz”的错误提示。
 
