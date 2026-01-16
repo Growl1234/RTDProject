@@ -18,7 +18,7 @@
 
 * **从版本2026.1开始，CP2K的编译将全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 我根据自己的编译体验，觉得cmake下编译比传统构建系统效率更高、报错概率更低。不过目前toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，目前无法通过cmake同时编译ssmp和psmp（检测出MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要<code style="font-size: 14px;">export OMP_NUM_THREADS=1</code> 并用<code style="font-size: 14px;">mpirun -np N</code> （N为并行核数）运行就相当于运行popt了。
 
-***补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（至少适用于2025.2及后续版本，以下以2026.1为例；假设使用root用户）：***
+***<font color=red>补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（至少适用于2025.2及后续版本，以下以2026.1为例；假设使用root用户）：</font>***
 
 <ol>
 <li> 完成前述toolchain配置后，按照控制台输出所说明的执行<code style="font-size: 14px;">source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup</code>。</li>
