@@ -45,7 +45,7 @@ cmake -S .. -DCMAKE_INSTALL_PREFIX=../install -DCP2K_USE_TBLITE=ON -DCP2K_USE_FF
 
 <p style="margin-left: 20px; margin-right: 20px; font-size: 17px;">
 <strong><a href="../../_static/packages/cp2k-2026.1.tar.xz">📦cp2k-2026.1.tar.xz</a></strong>
-（由于CP2K为遵循GPL v2许可证的开源软件，该重构包允许传播）
+（由于CP2K为遵循GPL v2许可证的开源软件，该源码包允许传播）
 </p>
 
 <li> 构建完成后，运行<code style="font-size: 14px;">make install -jN</code>，N是并行核数。</li>
