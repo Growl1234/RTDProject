@@ -30,7 +30,7 @@
 <li> 运行构建指令。由于前面说过的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
 
 ```bash
-./install_cp2k_toolchain.sh --with-sirius=no --with-openblas=system --with-fftw=system --with-scalapack=system --with-hdf5=system --with-ninja=system --with-cmake=system --with-tblite
+./install_cp2k_toolchain.sh --with-sirius=no --with-openblas=system --with-fftw=system --with-scalapack=system --with-hdf5=system --with-ninja=system --with-cmake=system --with-tblite -j 24
 ```
 
 这里包括了自己在系统单另已经安装好的cmake、ninja、MPI、OpenBLAS、ScaLAPACK、FFTW3和HDF5，toolchain默认安装的libint、libXC、libXSMM、Spglib、COSMA、ELPA、libvori，以及我选定安装的tblite。那么我的cmake预配置选项即如下所示，可见相当麻烦：
