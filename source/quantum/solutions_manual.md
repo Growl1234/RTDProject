@@ -2,6 +2,6 @@
 
 ___
 
-[量子化学 (Levine 著) (第7版) 习题参考答案](../_static/pdf/quantum/solutions/qc7e.pdf)
+[📄 量子化学 (Levine 著) (第7版) 习题参考答案](../_static/pdf/quantum/solutions/qc7e.pdf)
 
-[分子量子力学 (P. W. Atkins 著) (第5版) 部分练习与习题参考答案](../_static/pdf/quantum/solutions/mqm5e_selected.pdf)
+[📄 分子量子力学 (P. W. Atkins 著) (第5版) 部分练习与习题参考答案](../_static/pdf/quantum/solutions/mqm5e_selected.pdf)
