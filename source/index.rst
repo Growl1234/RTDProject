@@ -4,8 +4,8 @@ Home - Growl1234
 Welcome!
 --------
 
-This is Growl1234 from a mysterious little corner.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is Growl1234 from a hidden corner of the world.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Here are a few things I want to share with you if you're interested in quantum chemistry and computational chemistry, along with other odds and ends such as tinkering with Linux systems. Though you may not feel them useful, I find joy in doing it. 😋
 
