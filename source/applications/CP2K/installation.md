@@ -12,6 +12,8 @@
 
 * 根据个人测试经验，OpenMPI并行结合oneMKL数学库选项配置的CP2K在运行时会出现内存配置错误，而MPICH不会，原因不明。鉴于这一情况，如果坚持使用Intel oneMKL作为数学库，那我建议你用MPICH作为并行化工具来配置和运行CP2K；而在使用开源的OpenBLAS、ScaLAPACK和FFTW组合当数学库时，则放心用社区流行度更高的OpenMPI。
 
+* 用来计算CP2K杂化泛函任务中的双电子积分的libint库是整个toolchain过程中编译最耗时间的包之一；如果你安装在个人电脑上（此时往往算不动杂化泛函）或者完全用不到杂化泛函计算，那么libint可以不安装，或者降低支持的角动量（相应选项为`--libint-lmax`，支持4到7，越大的数字意味着越大的程序包大小和越高的编译耗时；默认为5，可以降低到4即最高支持到g角动量，编译耗时能降低到默认情况下的约3/4）。
+
 * <code style="font-size: 14px;">\--with-tblite</code> 代表安装Grimme的tblite程序，要加这个必须同时加上 <code style="font-size: 14px;">\--with-ninja</code>。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 <code style="font-size: 14px;">\--with-dftd4</code> 了（即使加上了也会被自动跳过；但是 <code style="font-size: 14px;">\--with-ninja</code> 还得有）。
 
 * 如果你使用自行事先编译的HDF5并加了 <code style="font-size: 14px;">\--with-hdf5=system</code> 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 <code style="font-size: 14px;">sudo dnf install libaec-devel</code> 命令装上libsz，否则会出现“找不到-lsz”的错误提示。
