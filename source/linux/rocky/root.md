@@ -30,7 +30,7 @@
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
-在Rocky Linux 10使用的GNOME 47中，nautilus会在root用户打开时延迟、卡顿好几秒钟才能进入；从命令行运行nautilus指令时，会输出警告： `This app cannot work correctly if run as root (not even with sudo). Consider running `nautilus admin:/` instead. `。这种迷之操作挺令我感觉不适的。后来终于想到检查源代码了，检查发现原来是源代码目录下的src/nautilus-main.c文件中用if代码施加了这一限制操作，即用户启动nautilus时程序会自动检查当前用户身份，发现是root就执行限制操作（ `sleep (7)` 即延后七秒执行后续代码）。这种限制给我的感觉纯粹是多管闲事、败坏好感！
+在Rocky Linux 10使用的GNOME 47中，nautilus会在root用户打开时延迟、卡顿好几秒钟才能进入；从命令行运行nautilus指令时，会输出警告： ``This app cannot work correctly if run as root (not even with sudo). Consider running `nautilus admin:/` instead. ``。这种迷之操作挺令我感觉不适的。后来终于想到检查源代码了，检查发现原来是源代码目录下的src/nautilus-main.c文件中用if代码施加了这一限制操作，即用户启动nautilus时程序会自动检查当前用户身份，发现是root就执行限制操作（ `sleep (7)` 即延后七秒执行后续代码）。这种限制给我的感觉纯粹是多管闲事、败坏好感！
 
 </div>
 
