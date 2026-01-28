@@ -26,7 +26,7 @@
 
 下面针对第二种情况给出三个示例，分别是GNOME文件资源管理器nautilus、MPI并行工具OpenMPI和功能强大的视频播放器VLC。
 
-**(1) Nautilus（GNOME文件资源管理器）**
+**<font size="4">(1) Nautilus（GNOME文件资源管理器）</font>**
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
@@ -95,7 +95,7 @@
 
 </div>
 
-**(2) OpenMPI**
+**<font size="4">(2) OpenMPI</font>**
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
@@ -124,7 +124,7 @@ export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 
 </div>
 
-**(3) VLC**
+**<font size="4">(3) VLC</font>**
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
