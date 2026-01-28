@@ -26,96 +26,43 @@
 
 下面针对第二种情况给出三个示例，分别是GNOME文件资源管理器nautilus、MPI并行工具OpenMPI和功能强大的视频播放器VLC。
 
-**(1) Nautilus（GNOME文件资源管理器）**
-
-<p style="margin-left: 20px; margin-right: 20px;">
+**<font size="4">(1) Nautilus（GNOME文件资源管理器）</font>**
 
 在Rocky Linux 10使用的GNOME 47中，nautilus会在root用户打开时延迟、卡顿好几秒钟才能进入；从命令行运行nautilus指令时，会输出警告： `This app cannot work correctly if run as root (not even with sudo). Consider running `nautilus admin:/` instead. `。这种迷之操作挺令我感觉不适的。后来终于想到检查源代码了，检查发现原来是源代码目录下的src/nautilus-main.c文件中用if代码施加了这一限制操作，即用户启动nautilus时程序会自动检查当前用户身份，发现是root就执行限制操作（ `sleep (7)` 即延后七秒执行后续代码）。这种限制给我的感觉纯粹是多管闲事、败坏好感！
 
-</p>
+既然原因找出来了，解决办法也就显而易见了：**直接修改源代码！** 完整步骤如下 <font color=blue>（如果懒得看，直接跳过步骤翻到后面，我给了已构建好的rpm包）</font>：
 
-<p style="margin-left: 20px; margin-right: 20px;">
+**①** 从镜像库中找到并下载软件对应的src.rpm文件（截至Rocky Linux 10.1，文件为<a href="https://mirrors.ustc.edu.cn/rocky/10/AppStream/source/tree/Packages/n/nautilus-47.1-1.el10.src.rpm">nautilus-47.1-1.el10.src.rpm</a>；超链接指向中科大镜像站的该文件，点击即可下载），执行 `rpmbuild -ivh nautilus-47.1-1.el10.src.rpm` 释放出真实的源代码架构和构建配置。释放后的文件架构在~/rpmbuild中，你应该在这里看到SOURCES和SPECS两个文件夹，其中SOURCES存放源代码压缩包（tar.xz），SPECS存放构建rpm的配置文件。
 
-既然原因找出来了，解决办法也就显而易见了：<strong>直接修改源代码！</strong>完整步骤如下 <font color=blue>（如果懒得看，直接跳过步骤翻到后面，我给了已构建好的rpm包）</font>：
+**②** 进入SOURCES文件夹，解压“nautilus-47.1.tar.xz”；随后进入文件夹，在src/nautilus-main.c文件里面找到“if (getuid () == 0)”，将对应段落（一直到这个if对应的}符号为止）删掉，保存。回到SOURCES目录，执行 `tar -cJf nautilus-47.1.tar.xz  nautilus-47.1` 将包含已修改代码的文件夹重新压缩成tar.xz以替代原来的压缩包。
 
-</p>
+**③** 执行 `export LD_LIBRARY_PATH= && export LD_RUN_PATH=` 以在当前终端临时清空这两个环境变量（否则这些里面包含的路径对构建过程造成干扰导致构建失败）；然后切到~/rpmbuild/SPECS目录下，运行 `rpmbuild -bb nautilus.spec` 重新构建二进制安装包。
 
-<p style="margin-left: 20px; margin-right: 20px;">
+**注意这一步的构建需要很多额外的依赖程序包，** 如果缺失的话会在运行rpm -bb构建指令时一开始就报错并给出很清晰的提示；基本上每行的needed的前面都直接就是软件包名，如果是pkgconfig开头的则是后面括号里的是软件包名（有少数几个括号中gstream开头的则并非如此，它们是gstreamer1-plugins-base-devel的组件，对应需要安装的是gstreamer1-plugins-base-devel）；如果搞不懂的话，把那若干行贴出来给grok并问在Rocky Linux 10中分别需要什么包就可以得到答案。注意其中包括meson包，这个只有CRB仓库中有，因此需要先运行 `dnf config-manager --set-enabled crb` 启用CRB库才能装meson。
 
-<strong>①</strong> 从镜像库中找到并下载软件对应的src.rpm文件（截至Rocky Linux 10.1，文件为<a href="https://mirrors.ustc.edu.cn/rocky/10/AppStream/source/tree/Packages/n/nautilus-47.1-1.el10.src.rpm">nautilus-47.1-1.el10.src.rpm</a>；超链接指向中科大镜像站的该文件，点击即可下载），执行 `rpmbuild -ivh nautilus-47.1-1.el10.src.rpm` 释放出真实的源代码架构和构建配置。释放后的文件架构在~/rpmbuild中，你应该在这里看到SOURCES和SPECS两个文件夹，其中SOURCES存放源代码压缩包（tar.xz），SPECS存放构建rpm的配置文件。
+**④** 切到~/rpmbuild/RPMS/x86_64目录下，执行 `rpm -ivh --reinstall nautilus-47.1-1.el10.x86_64.rpm` 以覆盖安装nautilus（在覆盖安装前最好关闭文件资源管理器窗口）。
 
-</p>
-
-<p style="margin-left: 20px; margin-right: 20px;">
-
-<strong>②</strong> 进入SOURCES文件夹，解压“nautilus-47.1.tar.xz”；随后进入文件夹，在src/nautilus-main.c文件里面找到“if (getuid () == 0)”，将对应段落（一直到这个if对应的}符号为止）删掉，保存。回到SOURCES目录，执行 `tar -cJf nautilus-47.1.tar.xz  nautilus-47.1` 将包含已修改代码的文件夹重新压缩成tar.xz以替代原来的压缩包。
-
-</p>
-
-<p style="margin-left: 20px; margin-right: 20px;">
-
-<strong>③</strong> 执行 `export LD_LIBRARY_PATH= && export LD_RUN_PATH=` 以在当前终端临时清空这两个环境变量（否则这些里面包含的路径对构建过程造成干扰导致构建失败）；然后切到~/rpmbuild/SPECS目录下，运行 `rpmbuild -bb nautilus.spec` 重新构建二进制安装包。
-
-</p>
-
-<p style="margin-left: 40px; margin-right: 40px;">
-
-<strong>注意这一步的构建需要很多额外的依赖程序包，</strong>如果缺失的话会在运行rpm -bb构建指令时一开始就报错并给出很清晰的提示；基本上每行的needed的前面都直接就是软件包名，如果是pkgconfig开头的则是后面括号里的是软件包名（有少数几个括号中gstream开头的则并非如此，它们是gstreamer1-plugins-base-devel的组件，对应需要安装的是gstreamer1-plugins-base-devel）；如果搞不懂的话，把那若干行贴出来给grok并问在Rocky Linux 10中分别需要什么包就可以得到答案。注意其中包括meson包，这个只有CRB仓库中有，因此需要先运行 `dnf config-manager --set-enabled crb` 启用CRB库才能装meson。
-
-</p>
-
-<p style="margin-left: 20px; margin-right: 20px;">
-
-<strong>④</strong> 切到~/rpmbuild/RPMS/x86_64目录下，执行 `rpm -ivh --reinstall nautilus-47.1-1.el10.x86_64.rpm` 以覆盖安装nautilus（在覆盖安装前最好关闭文件资源管理器窗口）。
-
-</p>
-
-<p style="margin-left: 20px; margin-right: 20px;">
 以上步骤完成后，你在root下打开nautilus就再也不会因为你是root而有那么长时间的延迟了。
-</p>
 
-<p style="margin-left: 20px; margin-right: 20px;">
-<strong>与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。倘若日后系统仓库中的nautilus有小更新，我会及时将这里的安装包也同步到最新版本。</strong>
-</p>
+**与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。倘若日后系统仓库中的nautilus有小更新，我会及时将这里的安装包也同步到最新版本。**
 
-<p style="margin-left: 20px; margin-right: 20px; font-size: 17px;">
 <strong><a href="../../_static/packages/nautilus.7z">📦nautilus.7z</a></strong>
 （由于nautilus为自由软件，该重构包大家可以随意传播）
 </p>
 
-<p style="margin-left: 20px; margin-right: 20px;">
-
 另注：Rocky Linux 9.x中的nautilus完全不存在这一问题。在Fedora 43使用的GNOME 49中，root用户下直接打不开nautilus窗口了，这个警告也变成了 `Running nautilus as root is not supported.`，原因和解决办法与上面所说相同。
 
-</p>
-
-**(2) OpenMPI**
-
-<p style="margin-left: 20px; margin-right: 20px;">
+**<font size="4">(2) OpenMPI</font>**
 
 OpenMPI在root下运行mpirun时候，要求指令中额外加上 `--allow-run-as-root` 选项，然而对于一些将mpirun指令内置的程序（比如ORCA），想实现这种做法却没那么容易和直接（直接写指令或alias识别不进去，可能需要用到函数功能）。想要避免这种情况，同时让自己不再需要加 `--allow-run-as-root`，可以通过<strong>写入环境变量</strong>来解决，即往~/.bashrc文件中加入以下两行：
-
-</p>
-
 ```bash
 export OMPI_ALLOW_RUN_AS_ROOT=1
 export OMPI_ALLOW_RUN_AS_ROOT_CONFIRM=1
 ```
-
-<p style="margin-left: 20px; margin-right: 20px;">
-
 这样，在 `source ~/.bashrc` 或者打开新终端后，就可以不加 `--allow-run-as-root` 直接运行mpirun任务了。
-
-</p>
-
-<p style="margin-left: 20px; margin-right: 20px;">
 修改源代码的方法也可以实现上述目的，操作见<a href="http://sobereva.com/409">http://sobereva.com/409</a>，不过相比上面写入环境变量的做法麻烦多了（该博文也包含写入环境变量的做法）。
-</p>
 
-**(3) VLC**
-
-<p style="margin-left: 20px; margin-right: 20px;">
+**<font size="4">(3) VLC</font>**
 
 VLC是Linux下功能最强大的视频播放器之一，该程序默认在root用户中无法启动。解决方法很简单：运行指令 `sed -i 's/geteuid/getppid/' /usr/bin/vlc`（显然也是将getuid相应步骤去掉）。
 
-</p>
