@@ -50,7 +50,11 @@ cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCP2K_DATA_DIR=/root/CP2K/src/cp2k-2
 （由于CP2K为遵循GPL v2许可证的开源软件，该源码包允许传播）
 </p>
 
-<li> 构建完成后，运行`make install -jN`，N是并行核数。</li>
+<li> 
+
+构建完成后，运行`make install -jN`，N是并行核数。
+
+</li>
 
 <li> 写入以下三行至~/.bashrc中以添加环境变量：
 
@@ -61,5 +65,9 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/CP2K/src/cp2k-2026.1/install/lib64
 ```
 </li>
 
-<li> 删除该build文件夹（或者不删除但执行`make clean`）以腾出部分空间。</li>
+<li> 
+
+删除该build文件夹（或者不删除但执行`make clean`）以腾出部分空间。
+
+</li>
 </ol>
