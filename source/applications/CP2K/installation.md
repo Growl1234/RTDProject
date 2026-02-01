@@ -1,6 +1,6 @@
 ## 从源代码配置CP2K
 
-***Last Updated: 2025-01-23***
+***Last Updated: 2025-02-01***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
@@ -10,15 +10,17 @@
 
 * **不要使用Intel oneAPI做并行化编译器，因为CP2K（截至版本2026.1）还没有做好对ifx的支持（新的oneAPI已经不再支持较旧的ifort），** 虽然toolchain一步可能会成功但后续正式编译步骤会编译不过去（亲身实践教训：版本2025.2或2025.1中使用传统make构建时会内存溢出，2026.1中会在make install最后几步出错）。与oneAPI的并行编译器不同，新的Intel oneMKL是受支持的（尽管相对于标准的OpenBLAS+FFTW+ScaLAPACK并没有什么比较优势）；如果使用oneMKL，建议安装好oneMKL后进入fftw3xf目录（例如/opt/intel/oneapi/mkl/2025.3/share/mkl/interfaces/fftw3xf）手动编译产生fftw3库文件（在该目录运行 `make libintel64`；根据Makefile的设定，编译过程使用icx和gcc都可以，然而实际启动编译时如果没有检测到icx就跳过gcc检查直接报错，所以如果想用gcc必须显式指定“CC=gcc”）。另外，根据个人测试经验，OpenMPI并行结合oneMKL数学库选项配置的CP2K在运行时会出现内存配置错误，而MPICH不会，原因不明；鉴于这一情况，如果坚持使用Intel oneMKL作为数学库，那我建议你用MPICH作为并行化工具来配置和运行CP2K；而在使用开源的OpenBLAS、ScaLAPACK和FFTW组合当数学库时，则放心用社区流行度更高的OpenMPI。
 
-* 注意使用OpenMPI编译的CP2K在MPI+OpenMP混合并行时有问题，会强制绑定到前几个线程（包括开启了超线程的情况，此时运行会极慢），此时必须加上`--map-by node`才能正常并行。
+* 注意使用OpenMPI作为并行工具时的CP2K在MPI+OpenMP混合并行时有问题，会强制绑定到前几个线程（包括开启了超线程的情况，此时运行会极慢），此时必须加上`--map-by node`才能正常并行。
 
 * 用来计算CP2K杂化泛函任务中的双电子积分的libint库是整个toolchain过程中编译最耗时间的包之一；如果你安装在个人电脑上（此时往往算不动杂化泛函）或者完全用不到杂化泛函计算，那么libint可以不安装，或者降低支持的角动量（相应选项为`--libint-lmax`，支持4到7，越大的数字意味着越大的程序包大小和越高的编译耗时；默认为5，可以降低到4即最高支持到g角动量，编译耗时能降低到默认情况下的约3/4）。
+
+* 如果你使用了`--with-openblas=system`或`--with-scalapack==system`，但没有把这些软件装到系统默认路径`/usr`内，请在安装ELPA前使用`export LIBRARY_PATH=`（不是`LD_LIBRARY_PATH`）命令使得这些库能够在ELPA编译时被搜索到，或者在`/usr/lib64`下创建这些库文件的软链接。
 
 * `--with-tblite` 代表安装Grimme的tblite程序，如果加了这个那么ninja会被自动安装（相当于加了 `--with-ninja`）。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 `--with-dftd4` 了（即使加上了也会被自动跳过）。
 
 * 如果你使用自行事先编译的HDF5并加了 `--with-hdf5=system` 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 `sudo dnf install libaec-devel` 命令装上libsz，否则会出现“找不到-lsz”的错误提示。这个小问题会在未来的2026.2版本中解决。
 
-* **从版本2026.1开始，CP2K的已编译全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了。
+* **从版本2026.1开始，CP2K的编译已全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了。
 
 **<font color=red>补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（至少适用于2025.2及后续版本，以下以2026.1为例；假设使用root用户）：</font>**
 
