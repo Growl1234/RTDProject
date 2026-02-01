@@ -25,9 +25,17 @@
 *<font color=red>First Written: 2025-12-25; Last Updated: 2026-01-23</font>*
 
 <ol>
-<li> 完成前述toolchain配置后，按照控制台输出所说明的执行`source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup`。</li>
+<li>
 
-<li> 切到cp2k源码目录，执行`mkdir build && cd build`，进入构建和编译专用目录。</li>
+完成前述toolchain配置后，按照控制台输出所说明的执行`source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup`。
+
+</li>
+
+<li>
+
+切到cp2k源码目录，执行`mkdir build && cd build`，进入构建和编译专用目录。
+
+</li>
 
 <li> 运行构建指令。由于前面说过的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
 
