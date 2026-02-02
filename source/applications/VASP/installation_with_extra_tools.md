@@ -10,7 +10,7 @@
 
 对于Intel处理器，很多教程都推荐使用Intel oneAPI + MKL，这种方法也是配置起来最简便的。对于这种方法，网上有不少配置编译VASP的教程，相差不大。唯一需要注意的是可能需要根据你所安装的Intel OneAPI版本修改“makefile.include”里面的部分内容（以v2025.0为例，修改“icc”为“icx”，“icpc”为“icpx”，“mpiifort”为“mpiifx”），以及清空MKLROOT后面的示例路径（或在整行前加#）来让编译文件读取系统默认的真实路径。另外，建议将其中的OFLAG参数里加入-xhost，这样编译器会使得编译出的程序能够利用当前机子CPU能支持的最高档次的指令集以加速计算，可以省去一些不必要的麻烦。
 
-*（附注：在使用Intel oneAPI + MKL这一官方“优化”套餐时，较旧一点的版本会在使用了大小核设计的CPU上可能因调度策略问题反而导致计算速度严重拖慢；所幸最新的2025.3.1已经解决了这个问题）*
+*（附注：在使用Intel oneAPI + MKL这一官方“优化”套餐时，较旧一点的版本会在使用了大小核设计的CPU上可能因调度策略问题反而导致计算速度严重拖慢；所幸最新的2025.3.1已经解决了这个问题。在我的电脑上实测使用该套餐相比GNU的标准套餐平均快15-20%。）*
 
 根据[官网的这个链接](https://www.vasp.at/wiki/index.php/Personal_computer_installation)，也可以使用GCC+OpenMPI在个人计算机上进行编译。这种方法编译出来的VASP受硬件约束可能较小，但操作要稍麻烦一些，因为需要额外安装一些相关的库，并额外进行一些“makefile.include”文件的编辑工作。对于这类情况，可以参考前面的官网指南或者[这里](https://implant.fs.cvut.cz/vasp-compilation/)的教程来配置编译VASP。此时，上面提到的“-xhost”应当改为加“-march=native”。
 
