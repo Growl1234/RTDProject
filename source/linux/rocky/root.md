@@ -48,7 +48,7 @@
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
-<strong>②</strong> 进入SOURCES文件夹，解压“nautilus-47.1.tar.xz”；随后进入文件夹，在src/nautilus-main.c文件里面找到“if (getuid () == 0)”，将对应段落（一直到这个if对应的}符号为止）删掉，保存。回到SOURCES目录，执行 `tar -cJf nautilus-47.1.tar.xz  nautilus-47.1` 将包含已修改代码的文件夹重新压缩成tar.xz以替代原来的压缩包。
+<strong>②</strong> 进入SOURCES文件夹，解压“nautilus-47.1.tar.xz”；随后进入文件夹，在src/nautilus-main.c文件里面找到“`if (getuid () == 0)`”，将对应段落（一直到这个if对应的}符号为止）删掉，保存。回到SOURCES目录，执行 `tar -cJf nautilus-47.1.tar.xz  nautilus-47.1` 将包含已修改代码的文件夹重新压缩成tar.xz以替代原来的压缩包。
 
 </div>
 
