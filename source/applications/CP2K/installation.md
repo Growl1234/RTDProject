@@ -8,7 +8,7 @@
 
 * toolchain会自动检查系统是否存在MKL配置，如果没有检测到MKL（包括新的oneMKL，下同），默认会把OpenBLAS、ScaLAPACK和FFTW一起安装下来，此时如果你已经事先有安装它们（包括其中任意一个）且环境变量配置正确，最好写上例如 `--with-openblas=system` 这样的选项。**注意：无论OpenBLAS是否需要作为数学库安装，也无论其是否被标为“system”，其源码都会被下载并解压用以执行另外一个必要的检查步骤，而关于OpenBLAS的一切直接或间接设定只能影响其会不会被编译和安装。**
 
-* **不要使用Intel oneAPI做并行化编译器，因为CP2K（截至版本2026.1）还没有做好对ifx的支持（新的oneAPI已经不再支持较旧的ifort），** 虽然toolchain一步可能会成功但后续正式编译步骤会编译不过去（亲身实践教训：版本2025.2或2025.1中使用传统make构建时会内存溢出，2026.1中会在make install最后几步出错）。与oneAPI的并行编译器不同，新的Intel oneMKL是受支持的（尽管相对于标准的OpenBLAS+FFTW+ScaLAPACK并没有什么显著优势）；如果使用oneMKL，建议安装好oneMKL后进入fftw3xf目录（例如/opt/intel/oneapi/mkl/2025.3/share/mkl/interfaces/fftw3xf）手动编译产生fftw3库文件（在该目录运行 `make libintel64`；根据Makefile的设定，编译过程使用icx和gcc都可以，然而实际启动编译时如果没有检测到icx就跳过gcc检查直接报错，所以如果想用gcc必须显式指定“CC=gcc”）。另外，根据个人测试经验，OpenMPI并行结合oneMKL数学库选项配置的CP2K在运行时会出现内存配置错误，而MPICH不会，原因不明；鉴于这一情况，如果坚持使用Intel oneMKL作为数学库，那我建议你用MPICH作为并行化工具来配置和运行CP2K；而在使用开源的OpenBLAS、ScaLAPACK和FFTW组合当数学库时，则放心用社区流行度更高的OpenMPI。
+* **不要使用Intel oneAPI做并行化编译器，因为CP2K（截至版本2026.1）还没有做好对ifx的支持（新的oneAPI已经不再支持较旧的ifort），** 虽然toolchain一步可能会成功但后续正式编译步骤会编译不过去（亲身实践教训：版本2025.2或2025.1中使用传统make构建时会内存溢出；2026.1中会在make install最后几步出错，但即使修复了问题编译成功也依然不能用，我猜是CP2K的源代码跟oneAPI里面的ifort/ifx之间存在严重的底层不兼容问题，测试表明程序总是请求夸张到离谱的内存量）。
 
 * 注意使用OpenMPI作为并行工具时的CP2K在MPI+OpenMP混合并行时有问题，会强制绑定到前几个线程（包括开启了超线程的情况，此时运行会极慢），此时必须加上`--map-by node`才能正常并行。
 
