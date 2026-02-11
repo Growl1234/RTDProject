@@ -1,6 +1,6 @@
 ## 从源代码配置CP2K
 
-***Last Updated: 2025-02-01***
+***Last Updated: 2025-02-11***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
@@ -20,7 +20,7 @@
 
 * 如果你使用自行事先编译的HDF5并加了 `--with-hdf5=system` 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 `sudo dnf install libaec-devel` 命令装上libsz，否则会出现“找不到-lsz”的错误提示。这个小问题会在未来的2026.2版本中解决。
 
-* **从版本2026.1开始，CP2K的编译已全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了。
+* **从版本2026.1开始，CP2K的编译已全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了；此外，我发现CP2K对sopt/popt版本中相应设置的实现是通过[Fortran主代码中的几行](https://github.com/cp2k/cp2k/blob/master/src/start/cp2k.F#L155-L159)完成的，因此实际上你完全可以在二进制文件目录下自己创建这样的符号链接。***（补充：目前开发分支已经在cmake的install一步加回了popt和sopt符号链接的创建命令）***
 
 **<font color=red>补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（至少适用于2025.2及后续版本，以下以2026.1为例；假设使用root用户）：</font>**
 
