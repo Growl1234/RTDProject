@@ -53,12 +53,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCP2K_DATA_DIR=/root/CP2K/src/cp2k-2
 
 其中`-DCMAKE_INSTALL_PREFIX` 设置到自己想安装到的路径（可以使用相对路径；为省事我直接设置在了父目录下一个新的文件夹；如果不设置，默认将为/usr/local）。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。之所以特别设置`-DCP2K_DATA_DIR=/root/CP2K/src/cp2k-2026.1/data`，是因为cmake构建系统安装好后默认读取基组的位置是`${CMAKE_INSTALL_PREFIX}/shared/cp2k/data`，会导致编译时生成与`/root/CP2K/src/cp2k-2026.1/data`内容完全重复的`/root/CP2K/src/cp2k-2026.1/install/shared/cp2k/data`目录，加上这一设置可以避免这一问题（但注意这里不能使用相对路径）。
 
-**<font color=blue>2026-01-23补充：为解决需要自己手动添加cmake选项的麻烦，我在源代码包的toolchain模块中加入了能够让toolchain自动根据自己的安装选项生成相应cmake指令的脚本；相关变动我已在CP2K的GitHub仓库上提交Pull Request并被成功合并，未来的2026.2版本中会包含这一功能。这里我将集成了该脚本的CP2K 2026.1源代码包放到这里供大家取用，用了这个你就只需要复制toolchain安装成功后屏幕上提示的cmake指令就可以了。</font>**
-
-<p style="margin-left: 20px; margin-right: 20px; font-size: 17px;">
-<strong><a href="../../_static/packages/cp2k-2026.1.tar.xz">📦cp2k-2026.1.tar.xz</a></strong>
-（由于CP2K为遵循GPL v2许可证的开源软件，该源码包允许传播）
-</p>
+**<font color=blue>2026-01-23补充：为解决需要自己手动添加cmake选项的麻烦，我在源代码包的toolchain模块中加入了能够让toolchain自动根据自己的安装选项生成相应cmake指令的脚本；相关变动我已在CP2K的GitHub仓库上提交Pull Request并被成功合并，未来的2026.2版本中会包含这一功能。大家可以直接去GitHub官方仓库下载现行开发分支来用，这样你就只需要复制toolchain安装成功后屏幕上提示的cmake指令就可以了。</font>**
 
 <li> 
 
