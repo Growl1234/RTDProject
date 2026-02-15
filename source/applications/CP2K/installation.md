@@ -12,8 +12,6 @@
 
 * 注意使用OpenMPI作为并行工具时的CP2K在MPI+OpenMP混合并行时有问题，会强制绑定到前几个线程（包括开启了超线程的情况，此时运行会极慢），此时必须加上`--map-by node`才能正常并行。
 
-* 用来计算CP2K杂化泛函任务中的双电子积分的libint库是整个toolchain过程中编译最耗时间的包之一；如果你安装在个人电脑上（此时往往算不动杂化泛函）或者完全用不到杂化泛函计算，那么libint可以不安装，或者降低支持的角动量（相应选项为`--libint-lmax`，支持4到7，越大的数字意味着越大的程序包大小和越高的编译耗时；默认为5，可以降低到4即最高支持到g角动量，编译耗时能降低到默认情况下的约3/4）。
-
 * 如果你使用了`--with-openblas=system`或`--with-scalapack==system`，但没有把这些软件装到系统默认路径`/usr`内，请在安装ELPA前使用`export LIBRARY_PATH=`（不是`LD_LIBRARY_PATH`）命令使得这些库能够在ELPA编译时被搜索到，或者在`/usr/lib64`下创建这些库文件的软链接。
 
 * `--with-tblite` 代表安装Grimme的tblite程序，如果加了这个那么ninja会被自动安装（相当于加了 `--with-ninja`）。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 `--with-dftd4` 了（即使加上了也会被自动跳过）。

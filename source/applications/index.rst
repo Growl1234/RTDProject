@@ -66,11 +66,14 @@
 
 `从源代码配置CP2K <./CP2K/installation.html>`_
 
+`自行构建适合CP2K使用的libint2双电子积分库的方法 <./CP2K/libint2.html>`_
+
 .. toctree::
    :maxdepth: 5
    :hidden:
 
    CP2K/installation
+   CP2K/libint2
 
 推荐博客及论坛
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
