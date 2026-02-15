@@ -40,13 +40,34 @@
 <li> 运行构建指令。由于前面说过的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
 
 ```bash
-./install_cp2k_toolchain.sh --with-sirius=no --with-openblas=system --with-fftw=system --with-scalapack=system --with-hdf5=system --with-ninja=system --with-cmake=system --with-tblite --libint-lmax=4 -j 24
+./install_cp2k_toolchain.sh --with-cmake=system \
+                            --with-ninja=system \
+                            --with-sirius=no \
+                            --with-openblas=system \
+                            --with-fftw=system \
+                            --with-scalapack=system \
+                            --with-hdf5=system \
+                            --with-tblite \
+                            --libint-lmax=4 -j 24
 ```
 
 这里包括了自己在系统单另已经安装好的cmake、ninja、MPI、OpenBLAS、ScaLAPACK、FFTW3和HDF5，toolchain默认安装的libint、libXC、libXSMM、Spglib、COSMA、ELPA、libvori，以及我选定安装的tblite。那么我的cmake预配置选项即如下所示，可见相当冗长、麻烦：
 
 ```bash
-cmake .. -DCMAKE_INSTALL_PREFIX=../install -DCP2K_DATA_DIR=/root/CP2K/src/cp2k-2026.1/data -DCP2K_USE_MPI=ON -DCP2K_USE_FFTW3=ON -DCP2K_USE_LIBINT2=ON -DCP2K_USE_LIBXC=ON -DCP2K_USE_LIBXSMM=ON -DCP2K_USE_COSMA=ON -DCP2K_USE_ELPA=ON -DCP2K_USE_SPGLIB=ON -DCP2K_USE_HDF5=ON -DCP2K_USE_VORI=ON -DCP2K_USE_TBLITE=ON
+cmake .. -DCMAKE_INSTALL_PREFIX=../install \
+         -DCP2K_DATA_DIR=/root/CP2K/src/cp2k-2026.1/data \
+         -DCP2K_USE_MPI=ON \
+         -DCP2K_USE_MPI_F08=ON \
+         -DCP2K_USE_FFTW3=ON \
+         -DCP2K_USE_LIBINT2=ON \
+         -DCP2K_USE_LIBXC=ON \
+         -DCP2K_USE_LIBXSMM=ON \
+         -DCP2K_USE_COSMA=ON \
+         -DCP2K_USE_ELPA=ON \
+         -DCP2K_USE_SPGLIB=ON \
+         -DCP2K_USE_HDF5=ON \
+         -DCP2K_USE_VORI=ON \
+         -DCP2K_USE_TBLITE=ON
 ```
 
 其中`-DCMAKE_INSTALL_PREFIX` 设置到自己想安装到的路径（可以使用相对路径；为省事我直接设置在了父目录下一个新的文件夹；如果不设置，默认将为/usr/local）。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。之所以特别设置`-DCP2K_DATA_DIR=/root/CP2K/src/cp2k-2026.1/data`，是因为cmake构建系统安装好后默认读取基组的位置是`${CMAKE_INSTALL_PREFIX}/shared/cp2k/data`，会导致编译时生成与`/root/CP2K/src/cp2k-2026.1/data`内容完全重复的`/root/CP2K/src/cp2k-2026.1/install/shared/cp2k/data`目录，加上这一设置可以避免这一问题（但注意这里不能使用相对路径）。
