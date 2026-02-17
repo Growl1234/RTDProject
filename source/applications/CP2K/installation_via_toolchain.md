@@ -1,10 +1,10 @@
-## 从源代码配置CP2K
+## 利用toolchain编译和配置CP2K
 
-***Last Updated: 2025-02-11***
+***Last Updated: 2026-02-11***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
-下面给一点补充说明：
+### 关于toolchain选项的一点补充说明
 
 * toolchain会自动检查系统是否存在MKL配置，如果没有检测到MKL（包括新的oneMKL，下同），默认会把OpenBLAS、ScaLAPACK和FFTW一起安装下来，此时如果你已经事先有安装它们（包括其中任意一个）且环境变量配置正确，最好写上例如 `--with-openblas=system` 这样的选项。**注意：无论OpenBLAS是否需要作为数学库安装，也无论其是否被标为“system”，其源码都会被下载并解压用以执行另外一个必要的检查步骤，而关于OpenBLAS的一切直接或间接设定只能影响其会不会被编译和安装。**
 
@@ -18,26 +18,17 @@
 
 * 如果你使用自行事先编译的HDF5并加了 `--with-hdf5=system` 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 `sudo dnf install libaec-devel` 命令装上libsz，否则会出现“找不到-lsz”的错误提示。这个小问题会在未来的2026.2版本中解决。
 
-* **从版本2026.1开始，CP2K的编译已全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了；此外，我发现CP2K对sopt/popt版本中相应设置的实现是通过[Fortran主代码中的几行](https://github.com/cp2k/cp2k/blob/master/src/start/cp2k.F#L155-L159)完成的，因此实际上你完全可以在二进制文件目录下自己创建这样的符号链接。***（补充：目前开发分支已经在cmake的install一步加回了popt和sopt符号链接的创建命令）***
+### 安装完toolchain中的依赖后用CMake编译CP2K
 
-**<font color=red>补充：最推荐的从cmake正确编译CP2K可执行文件的步骤（至少适用于2025.2及后续版本，以下以2026.1为例；假设使用root用户）：</font>**
+**从版本2026.1开始，CP2K的编译已全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了；此外，我发现CP2K对sopt/popt版本中相应设置的实现是通过[Fortran主代码中的几行](https://github.com/cp2k/cp2k/blob/master/src/start/cp2k.F#L155-L159)完成的，因此实际上你完全可以在二进制文件目录下自己创建这样的符号链接。***（补充：目前开发分支已经在cmake的install一步加回了popt和sopt符号链接的创建命令）***
 
-*<font color=red>First Written: 2025-12-25; Last Updated: 2026-01-23</font>*
+以下是在toolchain配置完成后利用CMake编译CP2K的步骤（以2026.1为例）：
 
-<ol>
-<li>
+1. 按照控制台输出所说明的执行`source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup`。
 
-完成前述toolchain配置后，按照控制台输出所说明的执行`source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup`。
+2. 切到cp2k源码目录，执行`mkdir build && cd build`，进入构建和编译专用目录。
 
-</li>
-
-<li>
-
-切到cp2k源码目录，执行`mkdir build && cd build`，进入构建和编译专用目录。
-
-</li>
-
-<li> 运行构建指令。由于前面说过的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
+3. 运行构建指令。由于前面说过的原因，这里需要手动敲入构建选项，比如我的toolchain选项为：
 
 ```bash
 ./install_cp2k_toolchain.sh --with-cmake=system \
@@ -74,24 +65,15 @@ cmake .. -DCMAKE_INSTALL_PREFIX=../install \
 
 **<font color=blue>2026-01-23补充：为解决需要自己手动添加cmake选项的麻烦，我在源代码包的toolchain模块中加入了能够让toolchain自动根据自己的安装选项生成相应cmake指令的脚本；相关变动我已在CP2K的GitHub仓库上提交Pull Request并被成功合并，未来的2026.2版本中会包含这一功能。大家可以直接去GitHub官方仓库下载现行开发分支来用，这样你就只需要复制toolchain安装成功后屏幕上提示的cmake指令就可以了。</font>**
 
-<li> 
+4. 构建完成后，运行`make install -jN`，N是并行核数。
 
-构建完成后，运行`make install -jN`，N是并行核数。
-
-</li>
-
-<li> 写入以下三行至~/.bashrc中以添加环境变量：
+5. 写入以下三行至~/.bashrc中以添加环境变量：
 
 ```bash
 source /root/CP2K/src/cp2k-2026.1/tools/toolchain/install/setup
 export PATH=$PATH:/root/CP2K/src/cp2k-2026.1/install/bin
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/root/CP2K/src/cp2k-2026.1/install/lib64
 ```
-</li>
 
-<li> 
+6. 删除该build文件夹（或者不删除但执行`make clean`）以腾出部分空间。
 
-删除该build文件夹（或者不删除但执行`make clean`）以腾出部分空间。
-
-</li>
-</ol>
