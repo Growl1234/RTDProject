@@ -1,6 +1,6 @@
 ## 自行构建适合CP2K使用的libint2双电子积分库的方法
 
-***Last Updated: 2025-02-15***
+***Last Updated: 2025-02-21***
 
 以下笔记以目前最新的libint v2.13.1为例（注意旧版的cmake指令可能有不同，请随机应变）。
 
@@ -56,6 +56,8 @@ CXXFLAGS="-g1" cmake .. \
   -DLIBINT2_ENABLE_FORTRAN=ON
 make install -j N
 ```
+
+***注意：此步骤同样需要用到“boost-devel”和“eigen3-devel”，因此即使直接用别人的预构建包你也仍然需要通过系统包管理器手动下载这两个依赖。***
 
 ### 关于toolchain中编译libint包的一个小tip
 
