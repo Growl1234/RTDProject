@@ -68,15 +68,12 @@
 
 `利用toolchain编译和配置CP2K <./CP2K/installation_via_toolchain.html>`_
 
-`自行构建适合CP2K使用的libint2双电子积分库的方法 <./CP2K/libint2.html>`_
-
 .. toctree::
    :maxdepth: 5
    :hidden:
 
    CP2K/install_via_make_cp2k_sh
    CP2K/installation_via_toolchain
-   CP2K/libint2
 
 推荐博客及论坛
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
