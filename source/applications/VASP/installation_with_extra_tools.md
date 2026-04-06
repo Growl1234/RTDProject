@@ -8,9 +8,101 @@
 
 编译的简要步骤为：将arch文件夹里你希望选择的makefile.include选项的文件复制到软件包主目录下并去掉注释性后缀（即更名为makefile.include），然后仔细检查里面的各种参数（必要时修改），最后执行 `make DEPS=1 -jN all` 即可（N指编译所用核数；此处使用“-j N”并行时“DEPS=1”不能漏写）。
 
-对于Intel处理器，很多教程都推荐使用Intel oneAPI + MKL，这种方法也是配置起来最简便的。对于这种方法，网上有不少配置编译VASP的教程，相差不大。唯一需要注意的是可能需要根据你所安装的Intel OneAPI版本修改“makefile.include”里面的部分内容（以v2025.0为例，修改“icc”为“icx”，“icpc”为“icpx”，“mpiifort”为“mpiifx”），以及清空MKLROOT后面的示例路径（或在整行前加#）来让编译文件读取系统默认的真实路径。另外，建议将其中的OFLAG参数里加入-xhost，这样编译器会使得编译出的程序能够利用当前机子CPU能支持的最高档次的指令集以加速计算，可以省去一些不必要的麻烦。
+***--2026-04-07补充--***
 
-*（附注：在使用Intel oneAPI + MKL这一官方“优化”套餐时，较旧一点的版本会在使用了大小核设计的CPU上可能因调度策略问题反而导致计算速度严重拖慢；所幸最新的2025.3.1已经解决了这个问题。在我的电脑上实测使用该套餐相比GNU的标准套餐平均快15-20%。）*
+下面针对典型套餐的简要编译说明现在在我看来均已不是最优解；个人目前最为推荐的针对最新版VASP的编译搭配是 **GNU编译器（GCC）+Intel MKL**。arch里只提供了GCC + OpenMPI + OpenMP + MKL的套餐，其一在于绑定了OpenMP支持（但对VASP没有什么使用价值），其二在于只兼容了OpenMPI（Intel MKL针对OpenMPI和MPICH/Intel MPI链接的BLAS库不同）。这里给一个我自己电脑上用GCC + MPICH + 不绑定OpenMP + MKL + HDF5（额外可选支持，你若不需要可以全部注释掉）的makefile.include：
+
+```makefile
+# Default precompiler options
+CPP_OPTIONS = -DHOST=\"LinuxGNU\" \
+              -DMPI -DMPI_BLOCK=8000 -Duse_collective \
+              -DscaLAPACK \
+              -DCACHE_SIZE=4000 \
+              -Davoidalloc \
+              -Dvasp6 \
+              -Dtbdyn \
+              -Dfock_dblbuf
+
+CPP         = gcc -E -C -w $*$(FUFFIX) >$*$(SUFFIX) $(CPP_OPTIONS)
+
+FC          = mpif90
+FCL         = mpif90
+
+FREE        = -ffree-form -ffree-line-length-none
+
+FFLAGS      = -w -ffpe-summary=none
+
+OFLAG       = -O3 -march=native -mtune=native
+OFLAG_IN    = $(OFLAG)
+DEBUG       = -O0
+
+# For what used to be vasp.5.lib
+CPP_LIB     = $(CPP)
+FC_LIB      = $(FC)
+CC_LIB      = gcc
+CFLAGS_LIB  = -O
+FFLAGS_LIB  = -O1
+FREE_LIB    = $(FREE)
+
+OBJECTS_LIB = linpack_double.o
+
+# For the parser library
+CXX_PARS    = g++
+LLIBS       = -lstdc++
+
+##
+## Customize as of this point! Of course you may change the preceding
+## part of this file as well if you like, but it should rarely be
+## necessary ...
+##
+
+# When compiling on the target machine itself, change this to the
+# relevant target when cross-compiling for another architecture
+VASP_TARGET_CPU ?= -march=native
+FFLAGS     += $(VASP_TARGET_CPU)
+
+# For gcc-10 and higher (comment out for older versions)
+FFLAGS     += -fallow-argument-mismatch
+
+# Intel MKL for FFTW, BLAS, LAPACK, and scaLAPACK
+#MKLROOT   ?= /path/to/your/mkl/installation
+LLIBS_MKL  = -L$(MKLROOT)/lib/intel64 -Wl,--no-as-needed -lmkl_gf_lp64 -lmkl_sequential -lmkl_core -lmkl_scalapack_lp64 -lmkl_blacs_intelmpi_lp64 -lm -ldl
+INCS       = -I$(MKLROOT)/include/fftw
+
+LLIBS      += $(LLIBS_MKL)
+
+# HDF5-support (optional but strongly recommended, and mandatory for some features)
+CPP_OPTIONS+= -DVASP_HDF5
+#HDF5_ROOT  ?= /path/to/your/hdf5/installation
+LLIBS      += -L$(HDF5_ROOT)/lib -lhdf5_fortran
+INCS       += -I$(HDF5_ROOT)/include
+
+# For the VASP-2-Wannier90 interface (optional)
+#CPP_OPTIONS    += -DVASP2WANNIER90
+#WANNIER90_ROOT ?= /path/to/your/wannier90/installation
+#LLIBS          += -L$(WANNIER90_ROOT)/lib -lwannier
+
+# For the fftlib library (hardly any benefit in combination with MKL's FFTs)
+#CPP_OPTIONS+= -Dsysv
+#FCL        += fftlib.o
+#CXX_FFTLIB  = g++ -std=c++11 -DFFTLIB_USE_MKL -DFFTLIB_THREADSAFE
+#INCS_FFTLIB = -I./include -I$(MKLROOT)/include/fftw
+#LIBS       += fftlib
+#LLIBS      += -ldl
+
+# For machine learning library VASPml (experimental)
+#CPP_OPTIONS += -Dlibvaspml
+#CPP_OPTIONS += -DVASPML_USE_MKL
+#CXX_ML       = mpic++
+#CXXFLAGS_ML  = -O3 -std=c++17 -Wall -Wextra
+#INCLUDE_ML   =
+```
+
+***--END--***
+
+下面讲讲对于三个典型套餐（Intel全家桶、GNU标准套餐、AMD全家桶）的大致状况。
+
+对于Intel处理器，很多教程都推荐使用Intel oneAPI + MKL，这种方法也是配置起来最简便的。对于这种方法，网上有不少配置编译VASP的教程，相差不大。唯一需要注意的是可能需要根据你所安装的Intel OneAPI版本修改“makefile.include”里面的部分内容（以v2025.0为例，修改“icc”为“icx”，“icpc”为“icpx”，“mpiifort”为“mpiifx”），以及清空MKLROOT后面的示例路径（或在整行前加#）来让编译文件读取系统默认的真实路径。另外，建议将其中的OFLAG参数里加入-xHOST，这样编译器会使得编译出的程序能够利用当前机子CPU能支持的最高档次的指令集以加速计算，可以省去一些不必要的麻烦。
 
 根据[官网的这个链接](https://www.vasp.at/wiki/index.php/Personal_computer_installation)，也可以使用GCC+OpenMPI在个人计算机上进行编译。这种方法编译出来的VASP受硬件约束可能较小，但操作要稍麻烦一些，因为需要额外安装一些相关的库，并额外进行一些“makefile.include”文件的编辑工作。对于这类情况，可以参考前面的官网指南或者[这里](https://implant.fs.cvut.cz/vasp-compilation/)的教程来配置编译VASP。此时，上面提到的“-xhost”应当改为加“-march=native”。
 
