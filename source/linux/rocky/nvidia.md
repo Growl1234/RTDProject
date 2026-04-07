@@ -20,7 +20,7 @@
 ### 2. 禁用系统自带的开源驱动Nouveau，避免可能的冲突
 
 运行以下指令：
-```
+```bash
 sudo grubby --args="nouveau.modeset=0 rd.driver.blacklist=nouveau" --update-kernel=ALL
 ```
 
@@ -31,7 +31,7 @@ sudo grubby --args="nouveau.modeset=0 rd.driver.blacklist=nouveau" --update-kern
 如果不想关安全启动，则需要导入dkms的密钥让设备进入Linux时允许运行该驱动程序，操作步骤如下：
 
 （1）运行指令：
-```
+```bash
 sudo mokutil --import /var/lib/dkms/mok.pub
 ```
 

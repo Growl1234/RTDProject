@@ -12,7 +12,7 @@
 
 用户可以随时通过`./make_cp2k.sh -h`命令来获得该脚本的使用帮助和提示。以下是我使用`make_cp2k.sh`时的构建指令：
 
-```
+```bash
 ./make_cp2k.sh \
  -cv psmp \
  -mpi openmpi \

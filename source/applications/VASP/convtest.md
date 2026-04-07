@@ -18,7 +18,7 @@ ENCUT可以根据POTCAR文件来设置，原则上不得低于所有元素中ENM
 
 显然，是否考虑k点、SCF是否收敛等影响能量及其精度的因素多多少少会对结果造成影响。由于VASP的算法原因，在做ENCUT收敛性测试时不建议为节省时间而放宽SCF收敛限，更不能为此有意减小SCF步数上限甚至减到1；可以为节约时间而取粗一点儿的k点，但不能仅考虑gamma点。（而以上“禁忌”对于CP2K影响一般不显著，故对CP2K可以考虑这样做）
 
-```
+```bash
 #Perform ENCUT convergence test
 #Written by Growl1234, based on Sobereva's bash script for convergence test of CUTOFF for CP2K.
 #!/bin/bash
