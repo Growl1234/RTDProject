@@ -1,6 +1,6 @@
 ## Rocky Linux 10 中使用root用户的一些简要说明、注意事项及障碍解决
 
-***Last Updated: 2025-11-27***
+***Last Updated: 2026-04-13***
 
 **【写在前面：root有风险，使用root用户时请谨慎操作，不要乱改系统文件！】**
 
@@ -42,7 +42,7 @@
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
-<strong>①</strong> 从镜像库中找到并下载软件对应的src.rpm文件（截至Rocky Linux 10.1，文件为<a href="https://mirrors.ustc.edu.cn/rocky/10/AppStream/source/tree/Packages/n/nautilus-47.1-1.el10.src.rpm">nautilus-47.1-1.el10.src.rpm</a>；超链接指向中科大镜像站的该文件，点击即可下载），执行 `rpmbuild -ivh nautilus-47.1-1.el10.src.rpm` 释放出真实的源代码架构和构建配置。释放后的文件架构在~/rpmbuild中，你应该在这里看到SOURCES和SPECS两个文件夹，其中SOURCES存放源代码压缩包（tar.xz），SPECS存放构建rpm的配置文件。
+<strong>①</strong> 从镜像库中找到并下载软件对应的src.rpm文件（截至Rocky Linux 10.1，文件为<a href="https://mirrors.ustc.edu.cn/rocky/10/AppStream/source/tree/Packages/n/nautilus-47.1-1.el10.src.rpm">nautilus-47.1-1.el10.src.rpm</a>；超链接指向中科大镜像站的该文件，点击即可下载），执行 `rpm -ivh nautilus-47.1-1.el10.src.rpm` 释放出真实的源代码架构和构建配置。释放后的文件架构在~/rpmbuild中，你应该在这里看到SOURCES和SPECS两个文件夹，其中SOURCES存放源代码压缩包（tar.xz），SPECS存放构建rpm的配置文件。
 
 </div>
 
@@ -54,19 +54,19 @@
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
-<strong>③</strong> 执行 `export LD_LIBRARY_PATH= && export LD_RUN_PATH=` 以在当前终端临时清空这两个环境变量（否则这些里面包含的路径对构建过程造成干扰导致构建失败）；然后切到~/rpmbuild/SPECS目录下，运行 `rpmbuild -bb nautilus.spec` 重新构建二进制安装包。
-
-</div>
-
-<div style="margin-left: 40px; margin-right: 40px;">
-
-<strong>注意这一步的构建需要很多额外的依赖程序包，</strong>如果缺失的话会在运行rpm -bb构建指令时一开始就报错并给出很清晰的提示；基本上每行的needed的前面都直接就是软件包名，如果是pkgconfig开头的则是后面括号里的是软件包名（有少数几个括号中gstream开头的则并非如此，它们是gstreamer1-plugins-base-devel的组件，对应需要安装的是gstreamer1-plugins-base-devel）；如果搞不懂的话，把那若干行贴出来给grok并问在Rocky Linux 10中分别需要什么包就可以得到答案。注意其中包括meson包，这个只有CRB仓库中有，因此需要先运行 `dnf config-manager --set-enabled crb` 启用CRB库才能装meson。
+<strong>③</strong> 执行 `export LD_LIBRARY_PATH= && export LD_RUN_PATH=` 以在当前终端临时清空这两个环境变量，否则这些里面包含的路径可能对构建过程造成干扰导致构建失败。
 
 </div>
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
-<strong>④</strong> 切到~/rpmbuild/RPMS/x86_64目录下，执行 `rpm -ivh --reinstall nautilus-47.1-1.el10.x86_64.rpm` 以覆盖安装nautilus（在覆盖安装前最好关闭文件资源管理器窗口）。
+<strong>④</strong> 切到~/rpmbuild/SPECS目录下，先运行`dnf builddep nautilus.spec -y`安装构建rpm包所需依赖，运行 `rpmbuild -bb nautilus.spec` 重新构建二进制安装包。
+
+</div>
+
+<div style="margin-left: 20px; margin-right: 20px;">
+
+<strong>⑤</strong> 切到~/rpmbuild/RPMS/x86_64目录下，执行 `rpm -ivh --reinstall nautilus-47.1-1.el10.x86_64.rpm` 以覆盖安装nautilus（在覆盖安装前最好关闭文件资源管理器窗口）。
 
 </div>
 
@@ -78,14 +78,17 @@
 
 <div style="margin-left: 20px; margin-right: 20px;">
 
-<strong>与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。倘若日后系统仓库中的nautilus有小更新，我会及时将这里的安装包也同步到最新版本。</strong>
+<strong>与目前Rocky Linux 10使用的GNOME 47相对应的nautilus 47.1-1的rpm包我已重新构建好，我把压缩包直接放到下面供大家取用。里面有一个Note.txt文件，可以在操作覆盖安装之前看看。同时，本着授人以鱼不如授人以渔的理念，我们也做了三个Dockerfile，分别针对Fedora latest、CentOS 10 Stream和Rocky Linux 10给出了借助podman容器重新构建Nautilus RPM包的流程，大家可以按照各个Dockerfile开头给的提示构建（建议直接一行一行复制Usage里的命令，以免一些人连照抄都抄不对）。</strong>
 
 </div>
 
 <div style="margin-left: 20px; margin-right: 20px; font-size: 17px;">
 
-<strong><a href="../../_static/packages/nautilus.7z">📦nautilus.7z</a></strong>
-（由于nautilus为自由软件，该重构包大家可以随意传播）
+<strong><a href="../../_static/packages/nautilus_package.7z">📦nautilus_package.7z</a></strong>
+
+<strong><a href="../../_static/docker/nautilus_dockerfiles.7z">📦nautilus_dockerfiles.7z</a></strong>
+
+（由于nautilus为自由软件，以上文件大家可以随意传播）
 
 </div>
 
