@@ -1,6 +1,6 @@
 ## 利用toolchain编译和配置CP2K
 
-***Last Updated: 2026-02-26***
+***Last Updated: 2026-05-17***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
@@ -20,7 +20,7 @@
 
 ### 安装完toolchain中的依赖后用CMake编译CP2K
 
-**从版本2026.1开始，CP2K的编译已全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了；此外，我发现CP2K对sopt/popt版本中相应设置的实现是通过[Fortran主代码中的几行](https://github.com/cp2k/cp2k/blob/master/src/start/cp2k.F#L155-L159)完成的，因此实际上你完全可以在二进制文件目录下自己创建这样的符号链接。***（补充：目前开发分支已经在cmake的install一步加回了popt和sopt符号链接的创建命令）***
+**从版本2026.1开始，CP2K的编译已全面转为cmake，彻底放弃GNU makefile和相应的arch文件集。** 目前发行版本中toolchain尚未实现针对自定义的配置设计合适的cmake指令，因此只能自己根据CMakeLists.txt里面的选项逐个添加与既有toolchain配置相对应的到命令行中，比较麻烦；另外，通过cmake无法同时编译ssmp和psmp（有MPI就只编译psmp，否则只编译ssmp），且编译成的程序没有相应的符号链接sopt和popt，不过这不算什么大问题，毕竟psmp同时支持MPI和OpenMP并行，只要设置OMP_NUM_THREADS为物理核心数且不用mpirun指令就相当于运行ssmp，只要`export OMP_NUM_THREADS=1` 并用`mpirun -np N` （N为并行核数）运行就相当于运行popt了；此外，实际上CP2K对sopt/popt版本中相应设置的实现是通过[Fortran主代码中的几行](https://github.com/cp2k/cp2k/blob/master/src/start/cp2k.F#L155-L159)完成的，因此实际上你完全可以在二进制文件目录下自己创建这样的符号链接。***（补充：目前开发分支已经在cmake的install一步加回了popt和sopt符号链接的创建命令）***
 
 以下是在toolchain配置完成后利用CMake编译CP2K的步骤（以2026.1为例）：
 
@@ -60,6 +60,8 @@ cmake .. -DCMAKE_INSTALL_PREFIX=../install \
 其中`-DCMAKE_INSTALL_PREFIX` 设置到自己想安装到的路径（可以使用相对路径；为省事我直接设置在了父目录下一个新的文件夹；如果不设置，默认将为/usr/local）。由于OpenBLAS是强制性的、Scalapack在有MPI的情况下是强制性的，因此无论如何它们都会被检查，所以这里无需写出。之所以特别设置`-DCP2K_DATA_DIR=/root/CP2K/src/cp2k-2026.1/data`，是因为cmake构建系统安装好后默认读取基组的位置是`${CMAKE_INSTALL_PREFIX}/shared/cp2k/data`，会导致编译时生成与`/root/CP2K/src/cp2k-2026.1/data`内容完全重复的`/root/CP2K/src/cp2k-2026.1/install/shared/cp2k/data`目录，加上这一设置可以避免这一问题（但注意这里不能使用相对路径）。
 
 **<font color=blue>2026-01-23补充：为解决需要自己手动添加cmake选项的麻烦，我在源代码包的toolchain模块中加入了能够让toolchain自动根据自己的安装选项生成相应cmake指令的脚本；相关变动我已在CP2K的GitHub仓库上提交Pull Request并被成功合并，未来的2026.2版本中会包含这一功能。大家可以直接去GitHub官方仓库下载现行开发分支来用，这样你就只需要复制toolchain安装成功后屏幕上提示的cmake指令就可以了。</font>**
+
+**<font color=blue>2026-05-17更新：上面的功能已经被进一步替代为一键式的[build_cp2k.sh](https://github.com/cp2k/cp2k/blob/master/tools/toolchain/build_cp2k.sh)，连复制粘贴CMake指令都省了，直接自动编译和安装，极大地方便了用户；而且更新后的toolchain支持toolchain和CP2K二进制文件均在源代码树外进行安装，灵活度高了许多。同时鉴于这几个月CP2K仓库实现了巨量的功能更新，请大家拭目以待2026.2版！</font>**
 
 4. 构建完成后，运行`make install -jN`，N是并行核数。
 
