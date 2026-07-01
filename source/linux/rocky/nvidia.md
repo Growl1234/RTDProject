@@ -48,7 +48,7 @@ sudo mokutil --import /var/lib/dkms/mok.pub
 
 经个人实测，无论在RHEL、CentOS Stream上还是Rocky、AlmaLinux等下游重构版上，严格按上述步骤安装驱动程序100%不会出问题。尽管如此，总会有人抱有侥幸心理，“我行我素”地盲目操作，结果就是安装不成功，`nvidia-smi` 也无法正常执行。关于常见的两种运行 `nvidia-smi` 时可能的报错，我还是提一下：
 
-1. `NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.`，即该指令压根就没有跟驱动程序正确对接上。出现这个问题，很有可能是没有注意关于安全启动的问题，把涉及安全启动那一步完整弄了就行；还可能是你的系统和软件环境跟驱动版本不兼容（基本是系统内核或软件仓库太老或者太新，例如Fedora常常因为更新策略太激进而导致在最新发布版上出现这种不兼容问题，此时再黏着官方仓库不放也解决不了问题了，只能找找其他能够提供驱动程序的可靠仓库，比如ELRepo和RPM Fusion）。
+1. `NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.`，即该指令压根就没有跟驱动程序正确对接上。出现这个问题，很有可能是没有注意关于安全启动的问题，把涉及安全启动那一步完整弄了就行；还可能是你的系统和软件环境跟驱动版本不兼容（基本是系统内核或软件仓库太老或者太新，例如Fedora常常因为更新策略太激进而导致在最新发布版上出现这种不兼容问题，此时再黏着官方仓库不放也解决不了问题了，只能找找其他能够提供驱动程序的可靠仓库，比如RPM Fusion）。
 
 2. `No devices were found.`，即该指令与驱动程序正确对接了，但却没有正确识别显卡设备。对于这个问题，应当认真查看相关的日志文件（一个有用的日志查看指令为 `journalctl`，建议了解下其用法），寻找病因并对症下药。选错安装模块是导致这一报错最常见的原因之一（例如，如果你的显卡是GeForce RTX 50系列但是选择安装了专有模块，运行 `nvidia-smi` 出现了这一报错，进行日志排查将发现其中明确写了“The NVIDIA GPU installed in this system requires use of the NVIDIA open kernel modules.”）。另外，记住这个指令：`nvidia-modprobe && nvidia-modprobe -u`，它往往在错误排查和问题解决中起到不小的辅助作用。
 

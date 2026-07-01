@@ -1,6 +1,6 @@
 ## 利用toolchain编译和配置CP2K
 
-***Last Updated: 2026-05-17***
+***Last Updated: 2026-06-20***
 
 **看思想家公社（sobereva）的文章[《CP2K第一性原理程序在Linux中的安装方法》](http://sobereva.com/586)即可，toolchain一步可以根据自己的实际需求作修改。**
 
@@ -10,11 +10,11 @@
 
 * **不要使用Intel oneAPI做编译器，因为Intel的Fortran编译器对现代Fortran特性的支持相当欠缺（而CP2K本身极致地利用了大量现代Fortran的功能与特性），** 导致编译和运行CP2K时会出各种各样的问题（包括但不限于编译不过去、编译过去但运行时报错等情况）。不过，Intel oneMKL是可以支持的，尽管并不比用默认的OpenBLAS+FFTW+ScaLAPACK做数学库有什么优势（这与CP2K自身特征有关）；注意在以前使用传统Makefile+arch文件集的构建系统时，利用MKL编译CP2K同样容易出问题，不过在CP2K全面迁移至CMake后这种问题不应再发生。
 
-* 注意使用OpenMPI作为并行工具时的CP2K在MPI+OpenMP混合并行时有问题，会强制绑定到前几个线程（包括开启了超线程的情况，此时运行会极慢），此时必须加上`--map-by node`才能正常并行。
+* 注意使用OpenMPI作为并行工具时的CP2K在MPI+OpenMP混合并行时有问题，会强制绑定到前几个线程（包括开启了超线程的情况，此时运行会极慢），这与OpenMPI的默认设置有关；此时必须加上`--map-by node`或`--map-by none`才能正常并行。
 
 * 如果你使用了`--with-openblas=system`或`--with-scalapack==system`，但没有把这些软件装到系统默认路径`/usr`内，请在安装ELPA前使用`export LIBRARY_PATH=`（不是`LD_LIBRARY_PATH`）命令使得这些库能够在ELPA编译时被搜索到，或者在`/usr/lib64`下创建这些库文件的软链接；如果用了`--with-fftw=system`且没有加`--with-sirius=no`，由于这意味着要同时安装libvdwxc，因此要把fftw的`CPATH`和`LIBRARY_PATH`都提前导入环境变量。
 
-* `--with-tblite` 代表安装Grimme的tblite程序，如果加了这个那么ninja会被自动安装（相当于加了 `--with-ninja`）。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 `--with-dftd4` 了（即使加上了也会被自动跳过）。
+* `--with-tblite` 代表安装Grimme的tblite程序，如果加了这个那么ninja会被自动安装（相当于加了 `--with-ninja`）。按照CP2K的说明，tblite同时包含DFT-D4，因此这时也就不用刻意加 `--with-dftd4` 了（即使加上了也会被自动跳过）。***注：自版本2026.2起，`--with-tblite`替代`--with-sirius`成为默认安装选项。***
 
 * 如果你使用自行事先编译的HDF5并加了 `--with-hdf5=system` 选项，toolchain脚本默认会自动把“-lsz”加到arch设置里，此时应当在正式编译CP2K前先运行 `sudo dnf install libaec-devel` 命令装上libsz，否则会出现“找不到-lsz”的错误提示。这个小问题会在未来的2026.2版本中解决。
 

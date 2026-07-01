@@ -1,6 +1,6 @@
 ## Rocky Linux的安装以及一些初步的使用建议
 
-***Last Updated: 2025-11-27***
+***Last Updated: 2026-06-20***
 
 
 **写在前面：**
@@ -15,7 +15,7 @@
 
 在国内尤其校园网环境下，最佳下载地址是[中科大的镜像源](https://mirrors.ustc.edu.cn/)（如果在校园网推荐切换到[IPv6版本](https://ipv6.mirrors.ustc.edu.cn/)）；进入后在列表找到rocky，然后依次：$version → isos → x86_64，点击下载“Rocky-$version -x86_64-dvd.iso”。
 
-*（注：$version代指版本号，目前受支持的版本有8.10、9.7和10.1。我自己用的是10.1，对稳健性有较大顾虑可以选择9.7；8.10偏老，不建议用）*
+*（注：$version代指版本号，目前受支持的版本有8.10、9.8和10.2。一般就用最新一代且稳健性基本已经有保证的10.2，也可以考虑9.8；8.10偏老，不建议用）*
 
 ### 2. 制作U盘启动盘
 
@@ -52,7 +52,7 @@
 
 1. 将repo源更换为国内镜像源往往会令下载速度有明显提升，建议安装完后初次打开系统首先操作这个。个人推荐中科大镜像源（后面涉及换源操作的也都以更换至中科大镜像源为例），教程见[https://mirrors.ustc.edu.cn/help/rocky.html](https://mirrors.ustc.edu.cn/help/rocky.html)。
 2. 强烈建议安装并换源完毕后首先运行 `sudo dnf update -y` 将系统关键组件（尤其是Linux内核即kernel）更新到最新版本。
-3. 建议运行指令 `sudo dnf install epel-release -y` 安装EPEL，这个是Fedora专门为红帽系列的中下游分发制作的软件仓库，包含了很多重要但官方仓库没有收录的程序包，对于很多额外的功能和体验都是必需的；以及 `sudo dnf config-manager --set-enabled crb` 启用系统的Codeready Builder仓库，这个仓库包含一些额外的程序编译和构建所需工具。将EPEL更换为国内镜像源的教程见[https://mirrors.ustc.edu.cn/help/epel.html](https://mirrors.ustc.edu.cn/help/epel.html)。对于10.x版本，EPEL的repo文件的指向链接通常带有“{$releasever+z}”字样，这个字样可以自行去掉，你可以根据自己的需求考虑是否这样做。
+3. 建议运行指令 `sudo dnf install epel-release -y` 安装EPEL，这个是Fedora专门为红帽系列的中下游分发制作的软件仓库，包含了很多重要但官方仓库没有收录的程序包，对于很多额外的功能和体验都是必需的；以及 `sudo dnf config-manager --set-enabled crb` 启用系统的Codeready Builder仓库，这个仓库包含一些额外的程序编译和构建所需工具。将EPEL更换为国内镜像源的教程见[https://mirrors.ustc.edu.cn/help/epel.html](https://mirrors.ustc.edu.cn/help/epel.html)。对于10.x版本，EPEL的repo文件的指向链接通常带有“{$releasever+z}”字样，这个字样可以自行去掉，但可能带来个别程序包的兼容性问题，你可以根据自己的需求考虑是否这样做。
 4. 建议添加国内flathub源方便从GNOME Software下载一些可能需要的桌面程序。教程见[https://mirrors.ustc.edu.cn/help/flathub.html](https://mirrors.ustc.edu.cn/help/flathub.html)。
 5. 推荐使用GNOME Tweaks（优化工具）和GNOME Shell Extensions（扩展工具集）来对自己系统的GNOME图形界面进行一些自定义，弥补原生GNOME桌面的一些不方便之处；在扩展工具中又建议安装Dash to Dock、GTK4 Desktop Icons NG (DING；如果是9.x版本选不带GTK4的)、AppIndicator and KStatusNotifierItem Support三个扩展。如果再在系统中安装ntfs-3g，还可以直接读取Windows系统下的硬盘和文件。上面的GNOME Tweaks和ntfs-3g均需通过EPEL安装；对于GNOME Shell Extensions，建议通过加了Flatpak仓库的GNOME Software安装Extension Manager来方便地管理。
 
